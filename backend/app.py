@@ -47,6 +47,88 @@ def create_user():
     
     return jsonify({"user_id": user_id}), 201
 
+#route to create a new transaction 
+@app.route('/transactions', methods=['POST'])
+def create_transaction():
+    connection = create_db_connection()
+    cursor = connection.cursor()
+    
+    user_id = request.json['user_id']
+    amount = request.json['amount']
+    description = request.json['description']
+    
+    query = """
+    INSERT INTO transactions (user_id, amount, description) 
+    VALUES (%s, %s, %s)
+    """
+    cursor.execute(query, (user_id, amount, description))
+    
+    connection.commit()
+    transaction_id = cursor.lastrowid
+    
+    cursor.close()
+    connection.close()
+    
+    return jsonify({"transaction_id": transaction_id}), 201
+
+# Route to get transactions for a user
+@app.route('/transactions/<int:user_id>', methods=['GET'])
+def get_transactions_for_user(user_id):
+    connection = create_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    query = "SELECT * FROM transactions WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    
+    transactions = cursor.fetchall()
+    
+    cursor.close()
+    connection.close()
+    
+    return jsonify(transactions)
+
+# Route to create a new recurring expense
+@app.route('/recurring_expenses', methods=['POST'])
+def create_recurring_expense():
+    connection = create_db_connection()
+    cursor = connection.cursor()
+    
+    user_id = request.json['user_id']
+    amount = request.json['amount']
+    description = request.json['description']
+    next_occurrence = request.json['next_occurrence']
+    interval_days = request.json.get('interval_days', 30)  # Default to 30 days if not provided
+    
+    query = """
+    INSERT INTO recurring_expenses (user_id, amount, description, next_occurrence, interval_days) 
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    cursor.execute(query, (user_id, amount, description, next_occurrence, interval_days))
+    
+    connection.commit()
+    expense_id = cursor.lastrowid
+    
+    cursor.close()
+    connection.close()
+    
+    return jsonify({"expense_id": expense_id}), 201
+
+# Route to get all recurring expenses for a user
+@app.route('/recurring_expenses/user/<int:user_id>', methods=['GET'])
+def get_recurring_expenses_for_user(user_id):
+    connection = create_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    query = "SELECT * FROM recurring_expenses WHERE user_id = %s"
+    cursor.execute(query, (user_id,))
+    
+    recurring_expenses = cursor.fetchall()
+    
+    cursor.close()
+    connection.close()
+    
+    return jsonify(recurring_expenses)
+
 # Starting the Flask app
 if __name__ == '__main__':
     app.run(debug=True)
