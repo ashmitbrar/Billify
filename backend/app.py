@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-#import mysql2.connector
-#from mysql2.connector import Error
+import mysql2.connector
+from mysql2.connector import Error
 
 app = Flask(__name__)
 
@@ -50,4 +50,4 @@ def create_user():
 # Starting the Flask app
 if __name__ == '__main__':
     app.run(debug=True)
-    
+
