@@ -189,6 +189,280 @@ def split_expenses(group_id):
     else:
         return jsonify({"error": "Group not found"}), 404
 
+# Category module
+# Route to add a new category
+@app.route('/categories', methods=['POST'])
+def create_category():
+    category_data = request.json
+    data = read_data()
+    data['categories'].append(category_data)
+    write_data(data)
+    return jsonify(category_data), 201
+
+# Route to update an existing category
+@app.route('/categories/<int:category_id>', methods=['PUT'])
+def update_category(category_id):
+    category_data = request.json
+    data = read_data()
+    category_index = next((index for index, category in enumerate(data['categories']) if category['category_id'] == category_id), None)
+    if category_index is not None:
+        data['categories'][category_index] = category_data
+        write_data(data)
+        return jsonify(category_data), 200
+    else:
+        return jsonify({"error": "Category not found"}), 404
+
+# Route to delete a category
+@app.route('/categories/<int:category_id>', methods=['DELETE'])
+def delete_category(category_id):
+    data = read_data()
+    category_index = next((index for index, category in enumerate(data['categories']) if category['category_id'] == category_id), None)
+    if category_index is not None:
+        deleted_category = data['categories'].pop(category_index)
+        write_data(data)
+        return jsonify(deleted_category), 200
+    else:
+        return jsonify({"error": "Category not found"}), 404
+
+#Debt module
+# Route to add a new debt
+@app.route('/debts', methods=['POST'])
+def create_debt():
+    debt_data = request.json
+    data = read_data()
+    data['debts'].append(debt_data)
+    write_data(data)
+    return jsonify(debt_data), 201
+
+# Route to update an existing debt
+@app.route('/debts/<int:debt_id>', methods=['PUT'])
+def update_debt(debt_id):
+    debt_data = request.json
+    data = read_data()
+    debt_index = next((index for index, debt in enumerate(data['debts']) if debt['debt_id'] == debt_id), None)
+    if debt_index is not None:
+        data['debts'][debt_index] = debt_data
+        write_data(data)
+        return jsonify(debt_data), 200
+    else:
+        return jsonify({"error": "Debt not found"}), 404
+
+# Route to delete a debt
+@app.route('/debts/<int:debt_id>', methods=['DELETE'])
+def delete_debt(debt_id):
+    data = read_data()
+    debt_index = next((index for index, debt in enumerate(data['debts']) if debt['debt_id'] == debt_id), None)
+    if debt_index is not None:
+        deleted_debt = data['debts'].pop(debt_index)
+        write_data(data)
+        return jsonify(deleted_debt), 200
+    else:
+        return jsonify({"error": "Debt not found"}), 404
+#Investment Module
+# Route to add a new investment
+@app.route('/investments', methods=['POST'])
+def create_investment():
+    investment_data = request.json
+    data = read_data()
+    data['investments'].append(investment_data)
+    write_data(data)
+    return jsonify(investment_data), 201
+
+# Route to update an existing investment
+@app.route('/investments/<int:investment_id>', methods=['PUT'])
+def update_investment(investment_id):
+    investment_data = request.json
+    data = read_data()
+    investment_index = next((index for index, investment in enumerate(data['investments']) if investment['investment_id'] == investment_id), None)
+    if investment_index is not None:
+        data['investments'][investment_index] = investment_data
+        write_data(data)
+        return jsonify(investment_data), 200
+    else:
+        return jsonify({"error": "Investment not found"}), 404
+
+# Route to delete an investment
+@app.route('/investments/<int:investment_id>', methods=['DELETE'])
+def delete_investment(investment_id):
+    data = read_data()
+    investment_index = next((index for index, investment in enumerate(data['investments']) if investment['investment_id'] == investment_id), None)
+    if investment_index is not None:
+        deleted_investment = data['investments'].pop(investment_index)
+        write_data(data)
+        return jsonify(deleted_investment), 200
+    else:
+        return jsonify({"error": "Investment not found"}), 404
+
+#Budgets Module
+# Route to add a new budget
+@app.route('/budgets', methods=['POST'])
+def create_budget():
+    budget_data = request.json
+    data = read_data()
+    data['budgets'].append(budget_data)
+    write_data(data)
+    return jsonify(budget_data), 201
+
+# Route to update an existing budget
+@app.route('/budgets/<int:budget_id>', methods=['PUT'])
+def update_budget(budget_id):
+    budget_data = request.json
+    data = read_data()
+    budget_index = next((index for index, budget in enumerate(data['budgets']) if budget['budget_id'] == budget_id), None)
+    if budget_index is not None:
+        data['budgets'][budget_index] = budget_data
+        write_data(data)
+        return jsonify(budget_data), 200
+    else:
+        return jsonify({"error": "Budget not found"}), 404
+
+# Route to delete a budget
+@app.route('/budgets/<int:budget_id>', methods=['DELETE'])
+def delete_budget(budget_id):
+    data = read_data()
+    budget_index = next((index for index, budget in enumerate(data['budgets']) if budget['budget_id'] == budget_id), None)
+    if budget_index is not None:
+        deleted_budget = data['budgets'].pop(budget_index)
+        write_data(data)
+        return jsonify(deleted_budget), 200
+    else:
+        return jsonify({"error": "Budget not found"}), 404
+
+#Expense Tracking Module
+# Route to add a new expense
+@app.route('/expenses', methods=['POST'])
+def create_expense():
+    expense_data = request.json
+    data = read_data()
+    data['expenses'].append(expense_data)
+    write_data(data)
+    return jsonify(expense_data), 201
+
+# Route to update an existing expense
+@app.route('/expenses/<int:expense_id>', methods=['PUT'])
+def update_expense(expense_id):
+    expense_data = request.json
+    data = read_data()
+    expense_index = next((index for index, expense in enumerate(data['expenses']) if expense['expense_id'] == expense_id), None)
+    if expense_index is not None:
+        data['expenses'][expense_index] = expense_data
+        write_data(data)
+        return jsonify(expense_data), 200
+    else:
+        return jsonify({"error": "Expense not found"}), 404
+
+# Route to delete an expense
+@app.route('/expenses/<int:expense_id>', methods=['DELETE'])
+def delete_expense(expense_id):
+    data = read_data()
+    expense_index = next((index for index, expense in enumerate(data['expenses']) if expense['expense_id'] == expense_id), None)
+    if expense_index is not None:
+        deleted_expense = data['expenses'].pop(expense_index)
+        write_data(data)
+        return jsonify(deleted_expense), 200
+    else:
+        return jsonify({"error": "Expense not found"}), 404
+
+#Savings Goal Module 
+# Route to add a new savings goal
+@app.route('/savings_goals', methods=['POST'])
+def create_savings_goal():
+    savings_goal_data = request.json
+    data = read_data()
+    data['savings_goals'].append(savings_goal_data)
+    write_data(data)
+    return jsonify(savings_goal_data), 201
+
+# Route to update an existing savings goal
+@app.route('/savings_goals/<int:goal_id>', methods=['PUT'])
+def update_savings_goal(goal_id):
+    savings_goal_data = request.json
+    data = read_data()
+    goal_index = next((index for index, goal in enumerate(data['savings_goals']) if goal['goal_id'] == goal_id), None)
+    if goal_index is not None:
+        data['savings_goals'][goal_index] = savings_goal_data
+        write_data(data)
+        return jsonify(savings_goal_data), 200
+    else:
+        return jsonify({"error": "Savings goal not found"}), 404
+
+# Route to delete a savings goal
+@app.route('/savings_goals/<int:goal_id>', methods=['DELETE'])
+def delete_savings_goal(goal_id):
+    data = read_data()
+    goal_index = next((index for index, goal in enumerate(data['savings_goals']) if goal['goal_id'] == goal_id), None)
+    if goal_index is not None:
+        deleted_goal = data['savings_goals'].pop(goal_index)
+        write_data(data)
+        return jsonify(deleted_goal), 200
+    else:
+        return jsonify({"error": "Savings goal not found"}), 404
+
+#Currency Module
+# Route to add a new currency
+@app.route('/currencies', methods=['POST'])
+def create_currency():
+    currency_data = request.json
+    data = read_data()
+    data['currencies'].append(currency_data)
+    write_data(data)
+    return jsonify(currency_data), 201
+
+# Route to update an existing currency
+@app.route('/currencies/<int:currency_id>', methods=['PUT'])
+def update_currency(currency_id):
+    currency_data = request.json
+    data = read_data()
+    currency_index = next((index for index, currency in enumerate(data['currencies']) if currency['currency_id'] == currency_id), None)
+    if currency_index is not None:
+        data['currencies'][currency_index] = currency_data
+        write_data(data)
+        return jsonify(currency_data), 200
+    else:
+        return jsonify({"error": "Currency not found"}), 404
+
+# Route to delete a currency
+@app.route('/currencies/<int:currency_id>', methods=['DELETE'])
+def delete_currency(currency_id):
+    data = read_data()
+    currency_index = next((index for index, currency in enumerate(data['currencies']) if currency['currency_id'] == currency_id), None)
+    if currency_index is not None:
+        deleted_currency = data['currencies'].pop(currency_index)
+        write_data(data)
+        return jsonify(deleted_currency), 200
+    else:
+        return jsonify({"error": "Currency not found"}), 404
+
+#Report Module
+# Route to generate a comprehensive financial report
+@app.route('/reports/comprehensive', methods=['GET'])
+def generate_comprehensive_report():
+    data = read_data()
+
+    report = {
+        "total_users": len(data['users']),
+        "total_transactions": sum(t['amount'] for t in data['transactions']),
+        "total_debts": sum(d['amount'] for d in data['debts']),
+        "total_investments": sum(i['amount'] for i in data['investments']),
+        "total_budgets": sum(b['amount'] for b in data['budgets']),
+        "total_expenses": sum(e['amount'] for e in data['expenses']),
+        "savings_goals_reached": sum(1 for g in data['savings_goals'] if g['current_amount'] >= g['target_amount']),
+        "category_wise_expenses": {}
+    }
+
+    # Categorizing expenses
+    for expense in data['expenses']:
+        category_id = expense['category_id']
+        category_name = next((c['name'] for c in data['categories'] if c['category_id'] == category_id), "Unknown")
+        if category_name not in report['category_wise_expenses']:
+            report['category_wise_expenses'][category_name] = 0
+        report['category_wise_expenses'][category_name] += expense['amount']
+
+    return jsonify(report), 200
+
+@app.route('/')
+def home():
+    return "Welcome to the Flask App!", 200
 
 # Starting the Flask app
 if __name__ == '__main__':
