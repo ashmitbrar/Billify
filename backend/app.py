@@ -1,8 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import json
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/static', template_folder='../frontend/templates')
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# ... rest of your Flask routes and functions ...
 
 DATA_FILE = 'data.json'
 
@@ -460,9 +466,9 @@ def generate_comprehensive_report():
 
     return jsonify(report), 200
 
-@app.route('/')
-def home():
-    return "Welcome to the Flask App!", 200
+#@app.route('/')
+#def home():
+#    return "Welcome to the Flask App!", 200
 
 # Starting the Flask app
 if __name__ == '__main__':
