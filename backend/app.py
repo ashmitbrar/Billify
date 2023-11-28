@@ -1,14 +1,14 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, session, flash, redirect, url_for, request, render_template, jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import os
 
 app = Flask(__name__, static_folder='../frontend/static', template_folder='../frontend/templates')
+app.secret_key = 'your_secret_key'
 
 @app.route('/')
 def home():
     return render_template('index.html')
-
-# ... rest of your Flask routes and functions ...
 
 DATA_FILE = 'data.json'
 
@@ -38,15 +38,40 @@ def write_data(data):
     with open(DATA_FILE, 'w') as file:
         json.dump(data, file, indent=4)
 
+
 # user management
 # Route to register a new user
 @app.route('/users', methods=['POST'])
 def create_user():
     user_data = request.json
+    user_data['password_hash'] = generate_password_hash(user_data['password'])
+    del user_data['password']  # Remove the plain password from the data
+
     data = read_data()
+    user_data['user_id'] = len(data['users']) + 1  # Assign a new user ID
     data['users'].append(user_data)  # Add the new user to the 'users' list
     write_data(data)  # Write the updated data back to the file
     return jsonify(user_data), 201
+@app.route('/login', methods=['POST'])
+def login():
+    credentials = request.json
+    username = credentials['username']
+    password = credentials['password']
+    data = read_data()
+
+    user = next((u for u in data['users'] if u['username'] == username), None)
+    if user and check_password_hash(user['password_hash'], password):
+        session['user_id'] = user['user_id']
+        return jsonify({"message": "Login successful", "user_id": user['user_id']}), 200
+    else:
+        return jsonify({"message": "Invalid credentials"}), 401
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return jsonify({"message": "Logged out"}), 200
+
+
 # Route to update an existing user
 @app.route('/users/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
@@ -438,6 +463,51 @@ def delete_currency(currency_id):
         return jsonify(deleted_currency), 200
     else:
         return jsonify({"error": "Currency not found"}), 404
+
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return jsonify({"message": "Unauthorized"}), 401
+
+    # Assuming 'user_id' in session is an int, otherwise you'd need to convert it
+    user_id = session['user_id']
+    data = read_data()
+
+    # Finding the logged-in user's data
+    user_data = next((user for user in data['users'] if user['user_id'] == user_id), None)
+    if not user_data:
+        return jsonify({"message": "User not found"}), 404
+
+    # Collecting all related data for the user
+    user_transactions = [t for t in data['transactions'] if t['user_id'] == user_id]
+    user_recurring_expenses = [re for re in data['recurring_expenses'] if re['user_id'] == user_id]
+    user_debts = [d for d in data['debts'] if d['user_id'] == user_id]
+    user_investments = [i for i in data['investments'] if i['user_id'] == user_id]
+    user_budgets = [b for b in data['budgets'] if b['user_id'] == user_id]
+    user_savings_goals = [sg for sg in data['savings_goals'] if sg['user_id'] == user_id]
+    user_expenses = [e for e in data['expenses'] if e['user_id'] == user_id]
+
+    # Optionally, add logic to fetch other user-specific data such as categories, groups, etc.
+    # ...
+
+    # Constructing the dashboard data
+    dashboard_data = {
+        "user_info": {
+            "user_id": user_data['user_id'],
+            "username": user_data['username'],
+            # Include other user fields as necessary
+        },
+        "transactions": user_transactions,
+        "recurring_expenses": user_recurring_expenses,
+        "debts": user_debts,
+        "investments": user_investments,
+        "budgets": user_budgets,
+        "savings_goals": user_savings_goals,
+        "expenses": user_expenses,
+        # Include other data modules as necessary
+    }
+
+    return jsonify(dashboard_data), 200
 
 #Report Module
 # Route to generate a comprehensive financial report

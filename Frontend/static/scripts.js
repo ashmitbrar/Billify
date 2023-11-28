@@ -14,15 +14,71 @@ function showMessage(message, isSuccess = true) {
         messageDiv.style.display = 'none';
     }, 5000);
 }
-
+// Function to handle user login
+function handleLogin(username, password) {
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === "Login successful") {
+            // You might want to store user_id in session storage or a cookie
+            // sessionStorage.setItem('user_id', data.user_id);
+            window.location.href = '/dashboard.html'; // Redirect to dashboard
+        } else {
+            showMessage(data.message, false);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('Login failed.', false);
+    });
+}
+// Function to handle user logout
+function handleLogout() {
+    fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        showMessage(data.message);
+        // Clear session storage or cookies if used
+        // sessionStorage.clear();
+        window.location.href = '/login.html'; // Redirect to login page
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('Logout failed.', false);
+    });
+}
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to show a message
-    function showMessage(message, isSuccess = true) {
-        const messageDiv = document.getElementById('message');
-        messageDiv.textContent = message;
-        messageDiv.style.color = isSuccess ? 'green' : 'red';
-        messageDiv.style.display = 'block';
+
+    // Event listener for the login form
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            handleLogin(username, password);
+        });
     }
+
+    // Event listener for the logout button
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            handleLogout();
+        });
+    }
+
 
     // Event listener for the registration form
     document.getElementById('registerForm').addEventListener('submit', function(e) {

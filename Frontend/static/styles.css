@@ -7,7 +7,34 @@ section {
     border: 1px solid #ddd;
     background-color: #f8f8f8;
 }
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
 
+header, nav, footer {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+}
+
+/* Message Display */
+.message {
+    color: green;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: none; /* Initially hidden */
+}
+
+.message.error {
+    color: red;
+}
 
 input[type="text"],
 input[type="email"],
@@ -83,4 +110,10 @@ button {
 
 button:hover {
     background-color: #4cae4c;
+}
+@media (max-width: 600px) {
+    .container, input[type="text"], input[type="email"], input[type="password"], input[type="number"], textarea {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
