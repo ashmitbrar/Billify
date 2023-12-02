@@ -9,6 +9,43 @@ app.secret_key = 'your_secret_key'
 @app.route('/')
 def home():
     return render_template('index.html')
+@app.route('/login')
+def login_page():
+    return render_template('login.html')
+
+@app.route('/register')
+def register_page():
+    return render_template('register.html')
+
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    data = read_data()
+
+    # Assuming 'user_id' in session is an int
+    user_id = session['user_id']
+
+    # Finding the logged-in user's data
+    user_data = next((user for user in data['users'] if user['user_id'] == user_id), None)
+    if not user_data:
+        return jsonify({"message": "User not found"}), 404
+
+    # Collecting all related data for the user
+    user_transactions = [t for t in data['transactions'] if t['user_id'] == user_id]
+    user_recurring_expenses = [re for re in data['recurring_expenses'] if re['user_id'] == user_id]
+    # ... continue collecting data as per your existing code ...
+
+    # Constructing the dashboard data
+    dashboard_data = {
+        "user_info": user_data,  # assuming user_data contains all necessary user info
+        "transactions": user_transactions,
+        # ... include other data modules as necessary ...
+    }
+
+    return render_template('dashboard.html', dashboard_data=dashboard_data)
+
 
 DATA_FILE = 'data.json'
 
@@ -52,6 +89,8 @@ def create_user():
     data['users'].append(user_data)  # Add the new user to the 'users' list
     write_data(data)  # Write the updated data back to the file
     return jsonify(user_data), 201
+
+
 @app.route('/login', methods=['POST'])
 def login():
     credentials = request.json
@@ -66,7 +105,7 @@ def login():
     else:
         return jsonify({"message": "Invalid credentials"}), 401
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
     return jsonify({"message": "Logged out"}), 200
@@ -464,50 +503,6 @@ def delete_currency(currency_id):
     else:
         return jsonify({"error": "Currency not found"}), 404
 
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return jsonify({"message": "Unauthorized"}), 401
-
-    # Assuming 'user_id' in session is an int, otherwise you'd need to convert it
-    user_id = session['user_id']
-    data = read_data()
-
-    # Finding the logged-in user's data
-    user_data = next((user for user in data['users'] if user['user_id'] == user_id), None)
-    if not user_data:
-        return jsonify({"message": "User not found"}), 404
-
-    # Collecting all related data for the user
-    user_transactions = [t for t in data['transactions'] if t['user_id'] == user_id]
-    user_recurring_expenses = [re for re in data['recurring_expenses'] if re['user_id'] == user_id]
-    user_debts = [d for d in data['debts'] if d['user_id'] == user_id]
-    user_investments = [i for i in data['investments'] if i['user_id'] == user_id]
-    user_budgets = [b for b in data['budgets'] if b['user_id'] == user_id]
-    user_savings_goals = [sg for sg in data['savings_goals'] if sg['user_id'] == user_id]
-    user_expenses = [e for e in data['expenses'] if e['user_id'] == user_id]
-
-    # Optionally, add logic to fetch other user-specific data such as categories, groups, etc.
-    # ...
-
-    # Constructing the dashboard data
-    dashboard_data = {
-        "user_info": {
-            "user_id": user_data['user_id'],
-            "username": user_data['username'],
-            # Include other user fields as necessary
-        },
-        "transactions": user_transactions,
-        "recurring_expenses": user_recurring_expenses,
-        "debts": user_debts,
-        "investments": user_investments,
-        "budgets": user_budgets,
-        "savings_goals": user_savings_goals,
-        "expenses": user_expenses,
-        # Include other data modules as necessary
-    }
-
-    return jsonify(dashboard_data), 200
 
 #Report Module
 # Route to generate a comprehensive financial report
@@ -535,10 +530,6 @@ def generate_comprehensive_report():
         report['category_wise_expenses'][category_name] += expense['amount']
 
     return jsonify(report), 200
-
-#@app.route('/')
-#def home():
-#    return "Welcome to the Flask App!", 200
 
 # Starting the Flask app
 if __name__ == '__main__':

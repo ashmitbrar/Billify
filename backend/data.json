@@ -1,168 +1,155 @@
 {
     "users": [
-      {
-        "user_id": 1,
-        "username": "user1",
-        "email": "user1@example.com",
-        "password_hash": "hashed_password",
-        "role": "admin",  
-        "total_money": 0.00,
-        "created_at": "2023-01-01T00:00:00Z",
-        "updated_at": "2023-01-01T00:00:00Z"
-      },
-      {
-        "user_id": 2,
-        "username": "user2",
-        "email": "user2@example.com",
-        "password_hash": "hashed_password",
-        "total_money": 0.00,
-        "created_at": "2023-01-02T00:00:00Z",
-        "updated_at": "2023-01-02T00:00:00Z"
-      }
+        {
+            "user_id": 1,
+            "username": "user1",
+            "email": "user1@example.com",
+            "password_hash": "<actual_hashed_password>",
+            "role": "admin",
+            "total_money": 0.0,
+            "created_at": "2023-01-01T00:00:00Z",
+            "updated_at": "2023-01-01T00:00:00Z"
+        },
+        {
+            "username": "Ashmit",
+            "email": "ashmitkbrar@gmail.com",
+            "password_hash": "scrypt:32768:8:1$1pB0s149phMOH7Yq$05f524f678e0f9a0e55c50a56bf6bbd12cb817a3bc7fe9716f967f0c79cd7f9145b92bb567218a0748ae07fe7b1d74fd60b0d8a5772398a2667c977b9cc96b9a",
+            "user_id": 2
+        }
     ],
     "transactions": [
-      {
-        "transaction_id": 1,
-        "user_id": 1,
-        "amount": 100.00,
-        "description": "Transaction 1",
-        "transaction_date": "2023-01-01T00:00:00Z"
-      },
-      {
-        "transaction_id": 2,
-        "user_id": 1,
-        "amount": 50.00,
-        "description": "Transaction 2",
-        "transaction_date": "2023-01-02T00:00:00Z"
-      }
+        {
+            "transaction_id": 1,
+            "user_id": 1,
+            "amount": 100.0,
+            "description": "Transaction 1",
+            "transaction_date": "2023-01-01T00:00:00Z"
+        },
+        {
+            "transaction_id": 2,
+            "user_id": 1,
+            "amount": 50.0,
+            "description": "Transaction 2",
+            "transaction_date": "2023-01-02T00:00:00Z"
+        }
     ],
     "recurring_expenses": [
-      {
-        "expense_id": 1,
-        "user_id": 1,
-        "amount": 50.00,
-        "description": "Recurring Expense 1",
-        "next_occurrence": "2023-01-15",
-        "interval_days": 30
-      }
+        {
+            "expense_id": 1,
+            "user_id": 1,
+            "amount": 50.0,
+            "description": "Recurring Expense 1",
+            "next_occurrence": "2023-01-15",
+            "interval_days": 30
+        }
+    ],
+    "notifications": [
+        {
+            "notification_id": 1,
+            "user_id": 1,
+            "message": "Notification 1",
+            "scheduled_time": "2023-01-10T08:00:00Z",
+            "sent": false
+        }
+    ],
+    "debts": [
+        {
+            "debt_id": 1,
+            "user_id": 1,
+            "amount": 200.0,
+            "description": "Debt 1",
+            "due_date": "2023-02-15",
+            "settled": false,
+            "reminder_sent": false
+        }
+    ],
+    "investments": [
+        {
+            "investment_id": 1,
+            "user_id": 1,
+            "amount": 1000.0,
+            "description": "Investment 1",
+            "return_rate": 0.05
+        }
+    ],
+    "budgets": [
+        {
+            "budget_id": 1,
+            "user_id": 1,
+            "amount": 500.0,
+            "start_date": "2023-01-01",
+            "end_date": "2023-01-31",
+            "description": "Monthly Budget 1"
+        }
+    ],
+    "savings_goals": [
+        {
+            "goal_id": 1,
+            "user_id": 1,
+            "target_amount": 10000.0,
+            "current_amount": 5000.0,
+            "description": "Savings Goal 1",
+            "target_date": "2023-12-31"
+        }
+    ],
+    "currencies": [
+        {
+            "currency_id": 1,
+            "name": "USD"
+        },
+        {
+            "currency_id": 2,
+            "name": "EUR"
+        },
+        {
+            "currency_id": 3,
+            "name": "CAD"
+        }
+    ],
+    "user_settings": [
+        {
+            "settings_id": 1,
+            "user_id": 1,
+            "settings_data": "User settings data JSON"
+        }
+    ],
+    "categories": [
+        {
+            "category_id": 1,
+            "name": "Food",
+            "spent_amount": 250.0
+        }
+    ],
+    "groups": [
+        {
+            "group_id": 1,
+            "name": "Group 1"
+        }
+    ],
+    "group_balances": [
+        {
+            "balance_id": 1,
+            "group_id": 1,
+            "user_id": 1,
+            "balance": 100.0
+        }
+    ],
+    "expenses": [
+        {
+            "expense_id": 1,
+            "category_id": 1,
+            "amount": 50.0,
+            "description": "Expense 1",
+            "expense_date": "2023-01-15"
+        }
+    ],
+    "group_expenses": [
+        {
+            "group_expense_id": 1,
+            "group_id": 1,
+            "amount": 100.0,
+            "description": "Group Expense 1",
+            "expense_date": "2023-01-20"
+        }
     ]
-    ,
-  "notifications": [
-    {
-      "notification_id": 1,
-      "user_id": 1,
-      "message": "Notification 1",
-      "scheduled_time": "2023-01-10T08:00:00Z",
-      "sent": false
-    }
-  ],
-  "debts": [
-    {
-      "debt_id": 1,
-      "user_id": 1,
-      "amount": 200.00,
-      "description": "Debt 1",
-      "due_date": "2023-02-15",
-      "settled": false,
-      "reminder_sent": false
-    }
-  ],
-  "investments": [
-    {
-      "investment_id": 1,
-      "user_id": 1,
-      "amount": 1000.00,
-      "description": "Investment 1",
-      "return_rate": 0.05
-    }
-  ],
-  "budgets": [
-    {
-      "budget_id": 1,
-      "user_id": 1,
-      "amount": 500.00,
-      "start_date": "2023-01-01",
-      "end_date": "2023-01-31",
-      "description": "Monthly Budget 1"
-    }
-
-  ],
-  "savings_goals": [
-    {
-      "goal_id": 1,
-      "user_id": 1,
-      "target_amount": 10000.00,
-      "current_amount": 5000.00,
-      "description": "Savings Goal 1",
-      "target_date": "2023-12-31"
-    }
-    
-  ],
-  "currencies": [
-    {
-        "currency_id": 1,
-        "name": "USD"
-      },
-      {
-        "currency_id": 2,
-        "name": "EUR"
-      },
-      {
-        "currency_id": 3,
-        "name": "CAD"
-      }   
-  ],
-  
-  "user_settings": [
-    {
-      "settings_id": 1,
-      "user_id": 1,
-      "settings_data": "User settings data JSON"
-    }
- 
-  ],
-  "categories": [
-    {
-      "category_id": 1,
-      "name": "Food",
-      "spent_amount": 250.00
-    }
-
-  ],
-  "groups": [
-    {
-      "group_id": 1,
-      "name": "Group 1"
-    }
-   
-  ],
-  "group_balances": [
-    {
-      "balance_id": 1,
-      "group_id": 1,
-      "user_id": 1,
-      "balance": 100.00
-    }
- 
-  ],
-  "expenses": [
-    {
-      "expense_id": 1,
-      "category_id": 1,
-      "amount": 50.00,
-      "description": "Expense 1",
-      "expense_date": "2023-01-15"
-    }
-   
-  ],
-  "group_expenses": [
-    {
-      "group_expense_id": 1,
-      "group_id": 1,
-      "amount": 100.00,
-      "description": "Group Expense 1",
-      "expense_date": "2023-01-20"
-    }
-  ]
-  }
-  
+}

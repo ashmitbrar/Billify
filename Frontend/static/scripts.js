@@ -1,4 +1,3 @@
-<script src="script.js"></script>
 
 // scripts.js
 
@@ -23,12 +22,18 @@ function handleLogin(username, password) {
         },
         body: JSON.stringify({ username, password }),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.message === "Login successful") {
-            // You might want to store user_id in session storage or a cookie
-            // sessionStorage.setItem('user_id', data.user_id);
-            window.location.href = '/dashboard.html'; // Redirect to dashboard
+            showMessage('Login successful! Redirecting...');
+            setTimeout(() => {
+                window.location.href = '/dashboard'; // Redirect to dashboard after a short delay
+            }, 1000);
         } else {
             showMessage(data.message, false);
         }
@@ -38,7 +43,6 @@ function handleLogin(username, password) {
         showMessage('Login failed.', false);
     });
 }
-// Function to handle user logout
 function handleLogout() {
     fetch('/logout', {
         method: 'POST',
@@ -58,6 +62,7 @@ function handleLogout() {
         showMessage('Logout failed.', false);
     });
 }
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for the login form
@@ -71,21 +76,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listener for the logout button
-    const logoutButton = document.getElementById('logoutButton');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            handleLogout();
-        });
-    }
+   // Event listener for the logout button
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', handleLogout);
+}
+
 
 
     // Event listener for the registration form
     document.getElementById('registerForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const username = document.getElementById('registerUsername').value;
+    const email = document.getElementById('registerEmail').value; // This captures the email from the form
+    const password = document.getElementById('registerPassword').value;
         
         const data = { username, email, password }; // Adjust according to your backend expectations
         
@@ -104,7 +108,10 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             console.log('Success:', data);
-            showMessage('User registered successfully!');
+            showMessage('User registered successfully! Redirecting...');
+            setTimeout(() => {
+                window.location.href = '/dashboard'; // Redirect to dashboard after a short delay
+            }, 1000);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -176,35 +183,61 @@ document.getElementById('recurringExpenseForm').addEventListener('submit', funct
         showMessage('Failed to add recurring expense.', false);
     });
 });
-// Event listener for the notification form
-document.getElementById('notificationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Collect data from form fields
-    const userId = document.getElementById('userIdNotification').value;
-    const message = document.getElementById('message').value;
-    const scheduledTime = document.getElementById('scheduledTime').value;
+document.getElementById('accountBtn').addEventListener('click', function() {
+    // Fetch and display user settings and notifications
+    fetchUserSettings();
+    fetchNotifications();
+});
 
-    // Prepare data to send in the request body
-    const data = { userId, message, scheduled_time: scheduledTime };
-    
-    // Perform the POST request to the notifications route
-    fetch('/notifications', {
-        method: 'POST',
+function fetchUserSettings() {
+    // Assuming 'userId' is stored in session storage or a global variable
+    fetch(`/user_settings/${userId}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        }
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
-        showMessage('Notification scheduled successfully!');
+        console.log('User settings:', data);
+        // Code to display user settings goes here
     })
-    .catch((error) => {
-        console.error('Error:', error);
-        showMessage('Failed to schedule notification.', false);
+    .catch(error => {
+        console.error('Failed to fetch user settings:', error);
     });
-});
+}
+
+function fetchNotifications() {
+    // Assuming 'userId' is stored in session storage or a global variable
+    fetch(`/notifications/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(notifications => {
+        console.log('Notifications:', notifications);
+        displayNotifications(notifications);
+    })
+    .catch(error => {
+        console.error('Failed to fetch notifications:', error);
+    });
+}
+
+function displayNotifications(notifications) {
+    // Assuming you have a div or some container to display notifications
+    const notificationsContainer = document.getElementById('notificationsContainer');
+    notificationsContainer.innerHTML = '';
+
+    notifications.forEach(notification => {
+        const notificationElement = document.createElement('div');
+        notificationElement.classList.add('notification');
+        notificationElement.textContent = notification.message;
+        // Add more details if needed
+        notificationsContainer.appendChild(notificationElement);
+    });
+}
 
 // Event listener for the category form
 document.getElementById('categoryForm').addEventListener('submit', function(e) {
@@ -262,29 +295,35 @@ document.getElementById('userSettingsForm').addEventListener('submit', function(
 // Investments Management
 document.getElementById('addInvestmentForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const userId = document.getElementById('userIdInvestment').value;
-    const amount = document.getElementById('investmentAmount').value;
-    const description = document.getElementById('investmentDescription').value;
-    const returnRate = document.getElementById('returnRate').value;
+    var userId = sessionStorage.getItem('userId');
 
-    const data = {
+    const investmentData = {
         user_id: userId,
-        amount,
-        description,
-        return_rate: returnRate
+        amount: document.getElementById('investmentAmount').value,
+        description: document.getElementById('investmentDescription').value,
+        return_rate: document.getElementById('returnRate').value
     };
+   
 
     fetch('/investments', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(investmentData),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        console.log('Success:', data);
+        console.log('Investment added:', data);
         showMessage('Investment added successfully!');
+        // Optionally, redirect to the dashboard or clear the form
+        window.location.href = '/dashboard';
+         e.target.reset();
     })
     .catch((error) => {
         console.error('Error:', error);

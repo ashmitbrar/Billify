@@ -1,20 +1,24 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-<script src="{{ url_for('static', filename='scripts.js') }}"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
-   
+    <title>Register- Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <div id="message" style="color: red; display: none;"></div>
+    <div class="container">
+        <h2>Register Your Account</h2>
     <form id="registerForm">
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
+        <input type="text" id="registerUsername" placeholder="Username" required>
+        <input type="email" id="registerEmail" placeholder="Email" required>
+        <input type="password" id="registerPassword" placeholder="Password" required>
         <button type="submit">Register</button>
     </form>
-    <p>Already have an account? <a href="login.html">Login here</a></p>
-    <script src="scripts.js"></script>
+    
+    <p>Already have an account? <a href="/login">Login here</a></p>
+    
+    <script src="{{ url_for('static', filename='JS/scripts.js') }}"></script>
+
 </body>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='JS/scripts.js') }}"></script>
+
+</head>
+<body> 
+    <header>
+        <div id="branding">
+            <h1><a href="/dashboard">Billify - Your Personal Finance Tracker</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/user_settings">User Settings</a></li>
+                <li><a href="#" id="accountButton">Account</a></li>
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <section id="investmentSection">
+            <h2>Add Investment</h2>
+            <form id="addInvestmentForm" action="/investments" method="post">
+                <input type="text" id="investmentName" name="name" placeholder="Investment Name" required>
+                <input type="number" id="investmentAmount" name="amount" placeholder="Amount" required>
+                <input type="number" id="returnRate" name="return_rate" placeholder="Expected Return Rate (e.g., 0.05 for 5%)" step="0.01" required>
+                <textarea id="investmentDescription" name="description" placeholder="Description" required></textarea>
+                <button type="submit">Add Investment</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+    
+    <script>
+        document.getElementById('addInvestmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect data from the form
+            const formData = {
+                name: document.getElementById('investmentName').value,
+                amount: parseFloat(document.getElementById('investmentAmount').value),
+                return_rate: parseFloat(document.getElementById('returnRate').value),
+                description: document.getElementById('investmentDescription').value
+            };
+            
+            // Here you should include user_id in the formData if it's required by the backend
+            
+            // Send the data to the server
+            fetch('/investments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Redirect or update the page as needed
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+</body>
+</html>

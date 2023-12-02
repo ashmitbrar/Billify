@@ -1,4 +1,73 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='JS/scripts.js') }}"></script>
+
+</head>
+<body> 
+    <div id="message" style="color: red; display: none;"></div>
+    <header>
+        <div id="branding">
+            <h1>Billify - Your Personal Finance Tracker</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/user_settings">User Settings</a></li>
+                <li><a href="#" id="accountButton">Account</a></li>
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    
+    <div id="dashboard">
+        <section id="userOptions">
+            <div class="option" onclick="window.location.href='add_investment.html'">
+                <h3>Add Investment</h3>
+                <p>Keep track of your financial growth by adding new investments.</p>
+            </div>
+            <div class="option" onclick="showDebts()">
+                <h3>Debts</h3>
+                <p>Manage your liabilities and plan repayments effectively.</p>
+            </div>
+            <div class="option" onclick="showBudgets()">
+                <h3>Budgets</h3>
+                <p>Plan your spending and save money with custom budget plans.</p>
+            </div>
+            <div class="option" onclick="showTransactions()">
+                <h3>Transactions</h3>
+                <p>Review all your transactions in one place to better manage your finances.</p>
+            </div>
+            <div class="option" onclick="showExpenses()">
+                <h3>Expenses</h3>
+                <p>Monitor your expenses to understand where your money goes.</p>
+            </div>
+            <div class="option" onclick="showSavingsGoals()">
+                <h3>Savings Goals</h3>
+                <p>Set and achieve your savings goals for future financial security.</p>
+            </div>
+        </section>
+    </div>
+    <div class="option">
+        <a href="add_investment.html">
+            <h3>Add Investment</h3>
+            <p>Keep track of your financial growth by adding new investments.</p>
+        </a>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+
+
+</body>
+</html>
+
+
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,10 +77,10 @@
    
 </head>
 <body>
-    <div id="dashboard">
+    <div id="dashboard"> -->
         <!-- Dynamic content will be loaded here using JavaScript -->
-    </div>
+    <!-- </div>
     <button id="logoutButton">Logout</button>
     <script src="scripts.js"></script>
 </body>
-</html>
+</html> -->
