@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import os
 
-app = Flask(__name__, static_folder='../frontend/static', template_folder='../frontend/templates')
+app = Flask(__name__, static_folder='../Frontend/static', template_folder='../Frontend/templates')
 app.secret_key = 'your_secret_key'
 
 @app.route('/')
@@ -17,10 +17,46 @@ def login_page():
 def register_page():
     return render_template('register.html')
 
+@app.route('/add_investment')
+def add_investment():
+    return render_template('add_investment.html')
+
+@app.route('/add_debt')
+def add_debt():
+    # Ensure the user is logged in before allowing them to add a debt
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    return render_template('debts.html')
+
+@app.route('/add_budget')
+def add_budget():
+    return render_template('budgets.html')
+
+@app.route('/add_transaction')
+def add_transaction():
+    # Ensure the user is logged in before allowing them to add a transaction
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    return render_template('transactions.html')
+
+@app.route('/add_expense')
+def add_expense():
+    # Your logic here
+    return render_template('add_expense.html')
+
+@app.route('/add_savings_goal')
+def add_savings_goal():
+    # Ensure the user is logged in before allowing them to add a savings goal
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    return render_template('savings_goals.html')
+
+
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login_page'))
+    
 
     data = read_data()
 
@@ -399,15 +435,32 @@ def delete_budget(budget_id):
         return jsonify({"error": "Budget not found"}), 404
 
 #Expense Tracking Module
-# Route to add a new expense
 @app.route('/expenses', methods=['POST'])
 def create_expense():
-    expense_data = request.json
-    data = read_data()
-    data['expenses'].append(expense_data)
-    write_data(data)
-    return jsonify(expense_data), 201
+    # Ensure the user is logged in before allowing them to add an expense
+    if 'user_id' not in session:
+        return jsonify({"message": "Unauthorized access. Please log in."}), 401
 
+    try:
+        expense_data = request.json
+        data = read_data()
+
+        # Ensure the expense data contains all the necessary fields
+        if not all(key in expense_data for key in ['amount', 'description', 'expense_date']):
+            return jsonify({"message": "Missing data for expense."}), 400
+
+        # Add user ID from the session to the expense data
+        expense_data['user_id'] = session['user_id']
+        
+        # Append the new expense to the 'expenses' list
+        data['expenses'].append(expense_data)
+        
+        # Write the updated data back to the file
+        write_data(data)
+
+        return jsonify(expense_data), 201
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
 # Route to update an existing expense
 @app.route('/expenses/<int:expense_id>', methods=['PUT'])
 def update_expense(expense_id):

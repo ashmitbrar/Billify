@@ -30,6 +30,8 @@ function handleLogin(username, password) {
     })
     .then(data => {
         if (data.message === "Login successful") {
+            // Store the userId in sessionStorage
+        sessionStorage.setItem('userId', data.user_id);
             showMessage('Login successful! Redirecting...');
             setTimeout(() => {
                 window.location.href = '/dashboard'; // Redirect to dashboard after a short delay
@@ -54,6 +56,7 @@ function handleLogout() {
     .then(data => {
         showMessage(data.message);
         // Clear session storage or cookies if used
+        sessionStorage.removeItem('userId');
         // sessionStorage.clear();
         window.location.href = '/login.html'; // Redirect to login page
     })
@@ -66,7 +69,7 @@ function handleLogout() {
 document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for the login form
-    const loginForm = document.getElementById('loginForm');
+    var loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -77,15 +80,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
    // Event listener for the logout button
-const logoutButton = document.getElementById('logoutButton');
+var logoutButton = document.getElementById('logoutButton');
 if (logoutButton) {
     logoutButton.addEventListener('click', handleLogout);
 }
 
-
-
     // Event listener for the registration form
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
+    document.addEventListener('DOMContentLoaded', function() {
+        var registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const username = document.getElementById('registerUsername').value;
     const email = document.getElementById('registerEmail').value; // This captures the email from the form
@@ -118,10 +122,15 @@ if (logoutButton) {
             showMessage('Failed to register user.', false);
         });
     });
-
+        
+}
+    });
     // Event listener for the transaction form
-    document.getElementById('transactionForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    var transactionForm = document.getElementById('transactionForm');
+    if (transactionForm) {
+        transactionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+    
         const userId = document.getElementById('userId').value;
         const amount = document.getElementById('amount').value;
         const description = document.getElementById('description').value;
@@ -150,14 +159,24 @@ if (logoutButton) {
             showMessage('Failed to add transaction.', false);
         });
     });
-
+    }
 });
 
+
 // Event listener for the recurring expense form
-document.getElementById('recurringExpenseForm').addEventListener('submit', function(e) {
+var recurringExpenseForm = document.getElementById('recurringExpenseForm');
+if (recurringExpenseForm) {
+    recurringExpenseForm.addEventListener('submit', function(e) {
     e.preventDefault();
     // Collect data from form fields
-    const userId = document.getElementById('userIdExpense').value;
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+        showMessage('Not logged in. Redirecting to login page...', false);
+        setTimeout(() => {
+            window.location.href = '/login.html';
+        }, 1000);
+        return; // Exit the function if no userId is found
+    }
     const amount = document.getElementById('expenseAmount').value;
     const description = document.getElementById('expenseDescription').value;
     const nextOccurrence = document.getElementById('nextOccurrence').value;
@@ -183,14 +202,35 @@ document.getElementById('recurringExpenseForm').addEventListener('submit', funct
         showMessage('Failed to add recurring expense.', false);
     });
 });
-document.getElementById('accountBtn').addEventListener('click', function() {
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var accountBtn = document.getElementById('accountBtn');
+    if (accountBtn) {
+        accountBtn.addEventListener('click', function() {
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+        showMessage('Not logged in. Redirecting to login page...', false);
+        setTimeout(() => {
+            window.location.href = '/login.html';
+        }, 1000);
+        return; // Exit the function if no userId is found
+    }
     // Fetch and display user settings and notifications
     fetchUserSettings();
     fetchNotifications();
 });
+    }
+});
 
 function fetchUserSettings() {
-    // Assuming 'userId' is stored in session storage or a global variable
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+        showMessage('Not logged in. Redirecting to login page...', false);
+        setTimeout(() => {
+            window.location.href = '/login.html';
+        }, 1000);
+        return; // Exit the function if no userId is found
+    }
     fetch(`/user_settings/${userId}`, {
         method: 'GET',
         headers: {
@@ -208,7 +248,14 @@ function fetchUserSettings() {
 }
 
 function fetchNotifications() {
-    // Assuming 'userId' is stored in session storage or a global variable
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+        showMessage('Not logged in. Redirecting to login page...', false);
+        setTimeout(() => {
+            window.location.href = '/login.html';
+        }, 1000);
+        return; // Exit the function if no userId is found
+    }
     fetch(`/notifications/${userId}`, {
         method: 'GET',
         headers: {
@@ -240,7 +287,10 @@ function displayNotifications(notifications) {
 }
 
 // Event listener for the category form
-document.getElementById('categoryForm').addEventListener('submit', function(e) {
+// document.addEventListener('DOMContentLoaded', function() {
+    var categoryForm = document.getElementById('categoryForm');
+    if (categoryForm) {
+        categoryForm.addEventListener('submit', function(e) {
     e.preventDefault();
     // Collect data from form fields
     const name = document.getElementById('categoryName').value;
@@ -266,9 +316,13 @@ document.getElementById('categoryForm').addEventListener('submit', function(e) {
         showMessage('Failed to add category.', false);
     });
 });
+    }
+// });
 // User Settings Update
-document.getElementById('userSettingsForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+var userSettingsForm = document.getElementById('userSettingsForm');
+    if (userSettingsForm) {
+        userSettingsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
     const userId = document.getElementById('userIdSettings').value;
     const settingsData = document.getElementById('settingsData').value;
 
@@ -291,11 +345,21 @@ document.getElementById('userSettingsForm').addEventListener('submit', function(
         showMessage('Failed to update user settings.', false);
     });
 });
-
+    }
 // Investments Management
-document.getElementById('addInvestmentForm').addEventListener('submit', function(e) {
+var addInvestmentForm = document.getElementById('addInvestmentForm');
+if (addInvestmentForm) {
+    addInvestmentForm.addEventListener('submit', function(e) {
     e.preventDefault();
     var userId = sessionStorage.getItem('userId');
+if (!userId) {
+    showMessage('Not logged in. Redirecting to login page...', false);
+    setTimeout(() => {
+        window.location.href = '/login.html';
+    }, 1000);
+    return; // Exit the function if no userId is found
+}
+
 
     const investmentData = {
         user_id: userId,
@@ -321,30 +385,55 @@ document.getElementById('addInvestmentForm').addEventListener('submit', function
     .then(data => {
         console.log('Investment added:', data);
         showMessage('Investment added successfully!');
-        // Optionally, redirect to the dashboard or clear the form
-        window.location.href = '/dashboard';
-         e.target.reset();
+        setTimeout(() => {
+            window.location.reload(); // This will reload the page after the message is shown for the duration set in showMessage.
+        }, 5000);
     })
     .catch((error) => {
         console.error('Error:', error);
         showMessage('Failed to add investment.', false);
     });
 });
+}
+// Function to show messages on the page
+function showMessage(message, isSuccess = true) {
+    const messageDiv = document.getElementById('message');
+    if (messageDiv) {
+        messageDiv.textContent = message;
+        messageDiv.style.display = 'block';
+        messageDiv.style.color = isSuccess ? 'green' : 'red';
+    
+        // Hide the message after 5 seconds
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 5000);
+    } else {
+        alert(message); // Fallback to alert if message div is not found
+    }
+}
 
+document.addEventListener('DOMContentLoaded', function() {
 // Debt Records Handling
-document.getElementById('addDebtForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const userId = document.getElementById('userIdDebt').value;
-    const amount = document.getElementById('debtAmount').value;
-    const description = document.getElementById('debtDescription').value;
-    const dueDate = document.getElementById('dueDate').value;
-
-    const data = {
-        user_id: userId,
-        amount,
-        description,
-        due_date: dueDate
-    };
+var addDebtForm = document.getElementById('addDebtForm');
+    if (addDebtForm) {
+        addDebtForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+    const userId = sessionStorage.getItem('userId');
+if (!userId) {
+    showMessage('Not logged in. Redirecting to login page...', false);
+    setTimeout(() => {
+        window.location.href = '/login.html';
+    }, 1000);
+    return; // Exit the function if no userId is found
+}
+// Collect data from the form fields
+const formData = {
+    name: document.getElementById('debtName').value,
+    amount: parseFloat(document.getElementById('debtAmount').value),
+    due_date: document.getElementById('dueDate').value,
+    description: document.getElementById('debtDescription').value
+};
+    
 
     fetch('/debts', {
         method: 'POST',
@@ -356,34 +445,45 @@ document.getElementById('addDebtForm').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        showMessage('Debt added successfully!');
+        showMessage('Debt added successfully!', true);
+        // Redirect or update the page as needed
+        setTimeout(() => {
+            window.location.href = '/dashboard'; // Redirect to dashboard after showing message
+        }, 2000);
     })
     .catch((error) => {
         console.error('Error:', error);
         showMessage('Failed to add debt.', false);
     });
 });
-
+    }
+});
 // Function to show messages on the page
 function showMessage(message, success = true) {
     // You can implement this function to display success or error messages on your page
     console.log(message); // Placeholder for actual implementation
 }
 // Budgets Management
-document.getElementById('budgetForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const userId = document.getElementById('userIdBudget').value;
-    const amount = document.getElementById('budgetAmount').value;
-    const startDate = document.getElementById('budgetStartDate').value;
-    const endDate = document.getElementById('budgetEndDate').value;
-    const description = document.getElementById('budgetDescription').value;
-
-    const data = {
-        user_id: userId,
-        amount,
-        start_date: startDate,
-        end_date: endDate,
-        description
+document.addEventListener('DOMContentLoaded', function() {
+var budgetForm = document.getElementById('budgetForm');
+    if (budgetForm) {
+        budgetForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+    const userId = sessionStorage.getItem('userId');
+if (!userId) {
+    showMessage('Not logged in. Redirecting to login page...', false);
+    setTimeout(() => {
+        window.location.href = '/login.html';
+    }, 1000);
+    return; // Exit the function if no userId is found
+}
+const formData = {
+    name: document.getElementById('budgetName').value,
+    amount: parseFloat(document.getElementById('budgetAmount').value),
+    start_date: document.getElementById('startDate').value,
+    end_date: document.getElementById('endDate').value,
+    description: document.getElementById('budgetDescription').value
+    
     };
 
     fetch('/budgets', {
@@ -396,27 +496,46 @@ document.getElementById('budgetForm').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        showMessage('Budget created successfully!');
+        alert('Budget created successfully!');
+        window.location.href = '/dashboard';
     })
     .catch((error) => {
         console.error('Error:', error);
         showMessage('Failed to create budget.', false);
     });
 });
-
+    }
+    });
+    
 // Transactions Recording
-document.getElementById('transactionForm').addEventListener('submit', function(e) {
+document.addEventListener('DOMContentLoaded', function() {
+    var transactionForm = document.getElementById('transactionForm');
+    if (transactionForm) {
+        transactionForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    const userId = document.getElementById('userIdTransaction').value;
-    const amount = document.getElementById('transactionAmount').value;
-    const description = document.getElementById('transactionDescription').value;
+    // Make sure these IDs match the input fields in your form
+    const transactionName = document.getElementById('transactionName').value;
+    const transactionAmount = document.getElementById('transactionAmount').value;
     const transactionDate = document.getElementById('transactionDate').value;
+    const transactionDescription = document.getElementById('transactionDescription').value;
+
+    // Assuming you are storing userId in sessionStorage when the user logs in
+    const userId = sessionStorage.getItem('userId');
+
+    if (!userId) {
+        showMessage('Not logged in. Redirecting to login page...', false);
+        setTimeout(() => {
+            window.location.href = '/login.html';
+        }, 1000);
+        return; // Exit the function if no userId is found
+    }
 
     const data = {
         user_id: userId,
-        amount,
-        description,
-        transaction_date: transactionDate
+        name: transactionName,
+        amount: parseFloat(transactionAmount),
+        transaction_date: transactionDate,
+        description: transactionDescription
     };
 
     fetch('/transactions', {
@@ -426,53 +545,111 @@ document.getElementById('transactionForm').addEventListener('submit', function(e
         },
         body: JSON.stringify(data),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Success:', data);
-        showMessage('Transaction recorded successfully!');
+        showMessage('Transaction added successfully!');
     })
     .catch((error) => {
         console.error('Error:', error);
-        showMessage('Failed to record transaction.', false);
+        showMessage('Failed to add transaction.', false);
     });
 });
+}
+});
 
-// Savings Goals Management
-document.getElementById('addSavingsGoalForm').addEventListener('submit', function(e) { // Make sure this ID matches the form ID in your HTML
-    e.preventDefault();
-    const userId = document.getElementById('userIdSavingsGoal').value; // Ensure these IDs exist in your form
-    const targetAmount = document.getElementById('targetAmount').value;
-    const currentAmount = document.getElementById('currentAmount').value;
-    const description = document.getElementById('savingsGoalDescription').value;
-    const targetDate = document.getElementById('targetDate').value;
-
-    const data = {
-        user_id: userId,
-        target_amount: targetAmount,
-        current_amount: currentAmount,
-        description,
-        target_date: targetDate
-    };
-
+// Function to handle adding a savings goal
+function handleAddSavingsGoal(savingsGoalData) {
     fetch('/savings_goals', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(savingsGoalData),
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
     })
     .then(data => {
         console.log('Success:', data);
         showMessage('Savings goal added successfully!');
+        setTimeout(() => {
+            window.location.href = '/dashboard'; // Redirect to dashboard
+        }, 2000);
     })
-    .catch((error) => {
+    .catch(error => {
         console.error('Error:', error);
         showMessage('Failed to add savings goal.', false);
     });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var addSavingsGoalForm = document.getElementById('addSavingsGoalForm');
+    if (addSavingsGoalForm) {
+        addSavingsGoalForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const targetAmount = document.getElementById('targetAmount').value;
+            const currentAmount = document.getElementById('currentAmount').value;
+            const description = document.getElementById('savingsGoalDescription').value;
+            const targetDate = document.getElementById('targetDate').value;
+            const userId = sessionStorage.getItem('userId');
+
+            if (!userId) {
+                showMessage('Not logged in. Redirecting to login page...', false);
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 1000);
+                return;
+            }
+
+            const savingsGoalData = {
+                user_id: userId,
+                target_amount: parseFloat(targetAmount),
+                current_amount: parseFloat(currentAmount),
+                description,
+                target_date: targetDate
+            };
+            handleAddSavingsGoal(savingsGoalData);
+        });
+    }
+});
+
+// Event listener for the expense form
+document.addEventListener('DOMContentLoaded', function() {
+    var addExpenseForm = document.getElementById('addExpenseForm');
+    if (addExpenseForm) {
+        addExpenseForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const expenseName = document.getElementById('expenseName').value;
+            const expenseAmount = document.getElementById('expenseAmount').value;
+            const expenseDate = document.getElementById('expenseDate').value;
+            const expenseDescription = document.getElementById('expenseDescription').value;
+            const userId = sessionStorage.getItem('userId');
+
+            if (!userId) {
+                showMessage('Not logged in. Redirecting to login page...', false);
+                setTimeout(() => {
+                    window.location.href = '/login.html';
+                }, 1000);
+                return; // Exit the function if no userId is found
+            }
+
+            const expenseData = {
+                user_id: userId,
+                name: expenseName,
+                amount: parseFloat(expenseAmount),
+                expense_date: expenseDate,
+                description: expenseDescription
+            };
+            handleAddExpense(expenseData);
+        });
+    }
 });

@@ -15,6 +15,12 @@
             "email": "ashmitkbrar@gmail.com",
             "password_hash": "scrypt:32768:8:1$1pB0s149phMOH7Yq$05f524f678e0f9a0e55c50a56bf6bbd12cb817a3bc7fe9716f967f0c79cd7f9145b92bb567218a0748ae07fe7b1d74fd60b0d8a5772398a2667c977b9cc96b9a",
             "user_id": 2
+        },
+        {
+            "username": "Ashmit",
+            "email": "ashmitkbrar@gmail.com",
+            "password_hash": "scrypt:32768:8:1$VXgoMJM3P4XO8O8y$e9d496bf35a11492584f31cc0252815e87366a5cbc32cfac4334c2abbe640521e432f892b7f2e0a45192ca1bb3bbc75d442a86c288205cf1b2afe1af69974f8d",
+            "user_id": 3
         }
     ],
     "transactions": [
@@ -61,6 +67,12 @@
             "due_date": "2023-02-15",
             "settled": false,
             "reminder_sent": false
+        },
+        {
+            "name": "Dinner",
+            "amount": 20,
+            "due_date": "2023-12-07",
+            "description": "give money to friend"
         }
     ],
     "investments": [
@@ -70,6 +82,78 @@
             "amount": 1000.0,
             "description": "Investment 1",
             "return_rate": 0.05
+        },
+        {
+            "name": "stock",
+            "amount": 200,
+            "return_rate": 5,
+            "description": "invested in stock "
+        },
+        {
+            "name": "stock",
+            "amount": 200,
+            "return_rate": 5,
+            "description": "invested in stock "
+        },
+        {
+            "name": "stock",
+            "amount": 200,
+            "return_rate": 5,
+            "description": "invested in stock "
+        },
+        {
+            "name": "stock",
+            "amount": 200,
+            "return_rate": 5,
+            "description": "invested in stock "
+        },
+        {
+            "name": "stock",
+            "amount": 200,
+            "return_rate": 5,
+            "description": "invested in stock "
+        },
+        {
+            "name": "stock",
+            "amount": 400,
+            "return_rate": 2,
+            "description": "for son"
+        },
+        {
+            "name": "stock",
+            "amount": 400,
+            "return_rate": 2,
+            "description": "for son"
+        },
+        {
+            "name": "stock",
+            "amount": 400,
+            "return_rate": 2,
+            "description": "for son"
+        },
+        {
+            "name": "stock",
+            "amount": 400,
+            "return_rate": 2,
+            "description": "for son"
+        },
+        {
+            "name": "stock",
+            "amount": 599,
+            "return_rate": 0.07,
+            "description": "yeah!"
+        },
+        {
+            "name": "stock",
+            "amount": 599,
+            "return_rate": 0.07,
+            "description": "yeah!"
+        },
+        {
+            "name": "stock",
+            "amount": 34,
+            "return_rate": 0.02,
+            "description": "yea"
         }
     ],
     "budgets": [

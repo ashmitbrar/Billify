@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Dashboard - Billify</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='JS/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
 
 </head>
 <body> 
@@ -25,38 +26,44 @@
     
     <div id="dashboard">
         <section id="userOptions">
-            <div class="option" onclick="window.location.href='add_investment.html'">
+            <a href="{{ url_for('add_investment') }}" class="option">
+
                 <h3>Add Investment</h3>
                 <p>Keep track of your financial growth by adding new investments.</p>
-            </div>
-            <div class="option" onclick="showDebts()">
+            </a>
+             <!-- Update this div to be a link -->
+             <a href="{{ url_for('add_debt') }}" class="option">
                 <h3>Debts</h3>
                 <p>Manage your liabilities and plan repayments effectively.</p>
-            </div>
-            <div class="option" onclick="showBudgets()">
+            </a>
+            <a href="{{ url_for('add_budget') }}" class="option">
                 <h3>Budgets</h3>
                 <p>Plan your spending and save money with custom budget plans.</p>
-            </div>
-            <div class="option" onclick="showTransactions()">
+            </a>
+            
+            <a href="{{ url_for('add_transaction') }}" class="option">
                 <h3>Transactions</h3>
                 <p>Review all your transactions in one place to better manage your finances.</p>
-            </div>
-            <div class="option" onclick="showExpenses()">
+            </a>
+
+            <a href="{{ url_for('add_expense') }}" class="option">
                 <h3>Expenses</h3>
                 <p>Monitor your expenses to understand where your money goes.</p>
-            </div>
-            <div class="option" onclick="showSavingsGoals()">
+            </a>
+            
+           
+            <a href="{{ url_for('add_savings_goal') }}" class="option">
                 <h3>Savings Goals</h3>
                 <p>Set and achieve your savings goals for future financial security.</p>
-            </div>
+            </a>
         </section>
     </div>
-    <div class="option">
+    <!-- <div class="option">
         <a href="add_investment.html">
             <h3>Add Investment</h3>
             <p>Keep track of your financial growth by adding new investments.</p>
         </a>
-    </div>
+    </div> -->
     
     <footer>
         <p>Billify &copy; 2023</p>

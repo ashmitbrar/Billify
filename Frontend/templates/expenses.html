@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Billify - Your Personal Finance Tracker</h1>
+    </header>
+    
+    <div class="container">
+        <section id="expenseSection">
+            <h2>Add Expense</h2>
+            <form id="addExpenseForm">
+                <input type="text" id="expenseName" name="name" placeholder="Expense Name" required>
+                <input type="number" id="expenseAmount" name="amount" placeholder="Amount" required>
+                <input type="date" id="expenseDate" name="expense_date" placeholder="Expense Date" required>
+                <textarea id="expenseDescription" name="description" placeholder="Description" required></textarea>
+                <button type="submit">Add Expense</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addExpenseForm = document.getElementById('addExpenseForm');
+            addExpenseForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    name: document.getElementById('expenseName').value,
+                    amount: parseFloat(document.getElementById('expenseAmount').value),
+                    expense_date: document.getElementById('expenseDate').value,
+                    description: document.getElementById('expenseDescription').value
+                };
+                fetch('/expenses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Expense added successfully!');
+                    window.location.href = '/dashboard';
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Failed to add expense.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

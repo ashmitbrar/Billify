@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Transaction - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Billify - Your Personal Finance Tracker</h1>
+    </header>
+    
+    <div class="container">
+        <section id="transactionSection">
+            <h2>Add Transaction</h2>
+            <form id="addTransactionForm">
+                <input type="text" id="transactionName" name="name" placeholder="Transaction Name" required>
+                <input type="number" id="transactionAmount" name="amount" placeholder="Amount" required>
+                <input type="date" id="transactionDate" name="transaction_date" placeholder="Transaction Date" required>
+                <textarea id="transactionDescription" name="description" placeholder="Description" required></textarea>
+                <button type="submit">Add Transaction</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addTransactionForm = document.getElementById('addTransactionForm');
+            addTransactionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    name: document.getElementById('transactionName').value,
+                    amount: parseFloat(document.getElementById('transactionAmount').value),
+                    transaction_date: document.getElementById('transactionDate').value,
+                    description: document.getElementById('transactionDescription').value
+                };
+                fetch('/transactions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Transaction added successfully!');
+                    window.location.href = '/dashboard';
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Failed to add transaction.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

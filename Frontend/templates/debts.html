@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Debt - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <!-- Your header content -->
+        <h1>Billify - Your Personal Finance Tracker</h1>
+    </header>
+    
+    <div class="container">
+        <section id="debtSection">
+            <h2>Add Debt</h2>
+            <form id="addDebtForm">
+                <input type="text" id="debtName" name="name" placeholder="Debt Name" required>
+                <input type="number" id="debtAmount" name="amount" placeholder="Amount" required>
+                <input type="date" id="dueDate" name="due_date" placeholder="Due Date" required>
+                <textarea id="debtDescription" name="description" placeholder="Description" required></textarea>
+                <button type="submit">Add Debt</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        // Ensure DOM is loaded before attempting to add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the form element
+            var addDebtForm = document.getElementById('addDebtForm');
+
+            // Add event listener to the form
+            addDebtForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                // Collect data from the form fields
+                const formData = {
+                    name: document.getElementById('debtName').value,
+                    amount: parseFloat(document.getElementById('debtAmount').value),
+                    due_date: document.getElementById('dueDate').value,
+                    description: document.getElementById('debtDescription').value
+                };
+
+                // Send the data to the server
+                fetch('/debts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // Display a success message, then redirect or update the page
+                    alert('Debt added successfully!');
+                    window.location.href = '/dashboard'; // Redirect to dashboard
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Failed to add debt.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

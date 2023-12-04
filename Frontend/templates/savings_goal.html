@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Savings Goal - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Billify - Your Personal Finance Tracker</h1>
+    </header>
+
+    <div class="container">
+        <section id="savingsGoalSection">
+            <h2>Add Savings Goal</h2>
+            <form id="addSavingsGoalForm">
+                <label for="targetAmount">Target Amount:</label>
+                <input type="number" id="targetAmount" name="target_amount" placeholder="Target Amount" required>
+                
+                <label for="currentAmount">Current Amount:</label>
+                <input type="number" id="currentAmount" name="current_amount" placeholder="Current Amount" required>
+                
+                <label for="savingsGoalDescription">Description:</label>
+                <textarea id="savingsGoalDescription" name="description" placeholder="Description" required></textarea>
+                
+                <label for="targetDate">Target Date:</label>
+                <input type="date" id="targetDate" name="target_date" placeholder="Target Date" required>
+                
+                <button type="submit">Add Savings Goal</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addSavingsGoalForm = document.getElementById('addSavingsGoalForm');
+            addSavingsGoalForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const savingsGoalData = {
+                    target_amount: parseFloat(document.getElementById('targetAmount').value),
+                    current_amount: parseFloat(document.getElementById('currentAmount').value),
+                    description: document.getElementById('savingsGoalDescription').value,
+                    target_date: document.getElementById('targetDate').value
+                };
+                fetch('/savings_goals', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(savingsGoalData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Savings goal added successfully!');
+                    window.location.href = '/dashboard';
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Failed to add savings goal.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
