@@ -235,5 +235,34 @@
             "description": "Group Expense 1",
             "expense_date": "2023-01-20"
         }
-    ]
-}
+
+    ],
+
+
+  "split_expenses": [
+    {
+      "split_id": 1,
+      "group_id": 1,
+      "total_amount": 120.0,
+      "split_details": [
+        {
+          "user_id": 1,
+          "amount_owed": 40.0
+        },
+        {
+          "user_id": 2,
+          "amount_owed": 40.0
+        },
+        {
+          "user_id": 3,
+          "amount_owed": 40.0
+        }
+      ],
+      "description": "Dinner at restaurant",
+      "category": "Food",
+      "date": "2023-01-20"
+    }
+]
+
+  }
+    

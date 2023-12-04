@@ -671,3 +671,42 @@ nav ul li button:hover,
 nav ul li a:hover {
     text-decoration: underline;
 }
+.button-like-link {
+    background-color: #f0f0f0; /* Example background color */
+    border: 1px solid #ccc; /* Example border */
+    padding: 10px 20px; /* Example padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: #333; /* Example text color */
+    border-radius: 5px; /* Example border radius */
+    /* Add other styles to match your buttons */
+}
+#dashboard {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Adjusted for 4 equal columns */
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    #dashboard {
+        grid-template-columns: repeat(2, 1fr); /* Adjusts to a 2-column layout for smaller screens */
+    }
+}
+
+/* Ensure that the options are styled correctly */
+.option {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-align: center; /* Centers the text */
+}
+
+.option:hover {
+    transform: translateY(-5px);
+}

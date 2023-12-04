@@ -45,26 +45,46 @@ function handleLogin(username, password) {
         showMessage('Login failed.', false);
     });
 }
+// function handleLogout() {
+//     fetch('/logout', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         showMessage(data.message);
+//         // Clear session storage or cookies if used
+//         sessionStorage.removeItem('userId');
+//         // sessionStorage.clear();
+//         window.location.href = '/login.html'; // Redirect to login page
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         showMessage('Logout failed.', false);
+//     });
+// }
+// Function to handle logout
 function handleLogout() {
-    fetch('/logout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        showMessage(data.message);
-        // Clear session storage or cookies if used
-        sessionStorage.removeItem('userId');
-        // sessionStorage.clear();
-        window.location.href = '/login.html'; // Redirect to login page
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showMessage('Logout failed.', false);
-    });
+    // Clear session storage or cookies if used
+    sessionStorage.removeItem('userId');
+    // Redirect to login page
+    window.location.href = '/login';
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Event listener for the logout button
+    var logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleLogout();
+        });
+    }
+
+    // ... rest of your code ...
+});
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -653,3 +673,67 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// Function to handle splitting expenses
+function handleSplitExpenses(category, amount, members) {
+    // Convert the members string into an array
+    const memberList = members.split(',').map(member => member.trim());
+
+    const data = {
+        category: category,
+        amount: amount,
+        members: memberList
+    };
+
+    fetch('/split_expenses', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        showMessage('Expenses split successfully!');
+        // Optionally redirect to dashboard or update the page to show the split results
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        showMessage('Failed to split expenses.', false);
+    });
+}
+
+// Event listener for the splitting form
+document.addEventListener('DOMContentLoaded', function() {
+    var splitForm = document.getElementById('splitForm');
+    if (splitForm) {
+        splitForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const category = document.getElementById('category').value;
+            const amount = document.getElementById('amount').value;
+            const members = document.getElementById('members').value;
+            handleSplitExpenses(category, amount, members);
+        });
+    }
+});
+
+// Ensure the showMessage function is defined to handle displaying messages to the user
+function showMessage(message, isSuccess = true) {
+    const messageDiv = document.getElementById('message');
+    if (messageDiv) {
+        messageDiv.textContent = message;
+        messageDiv.style.display = 'block';
+        messageDiv.style.color = isSuccess ? 'green' : 'red';
+        // Hide the message after 5 seconds
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 5000);
+    } else {
+        alert(message); // Fallback to alert if message div is not found
+    }
+}

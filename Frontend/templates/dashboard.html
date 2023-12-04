@@ -18,7 +18,7 @@
             <ul>
                 <li><a href="/user_settings">User Settings</a></li>
                 <li><a href="#" id="accountButton">Account</a></li>
-                <li><button id="logoutButton">Logout</button></li>
+                <li><a href="/login" id="logoutButton" class="button-like-link">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -56,15 +56,20 @@
                 <h3>Savings Goals</h3>
                 <p>Set and achieve your savings goals for future financial security.</p>
             </a>
-        </section>
-    </div>
-    <!-- <div class="option">
-        <a href="add_investment.html">
-            <h3>Add Investment</h3>
-            <p>Keep track of your financial growth by adding new investments.</p>
+             <!-- New Options -->
+           <!-- Updated Splitting Option -->
+           <a href="{{ url_for('splitting') }}" class="option">
+            <h3>Splitting</h3>
+            <p>Divide expenses among group members fairly.</p>
         </a>
-    </div> -->
-    
+ <!-- New Report Option -->
+ <a href="{{ url_for('generate_user_report', user_id=session['user_id']) }}" class="option">
+    <h3>Report</h3>
+    <p>View detailed reports of your financial activities.</p>
+</a>
+      
+    </div>
+]
     <footer>
         <p>Billify &copy; 2023</p>
     </footer>
@@ -73,21 +78,3 @@
 </body>
 </html>
 
-
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-<script src="{{ url_for('static', filename='scripts.js') }}"></script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-   
-</head>
-<body>
-    <div id="dashboard"> -->
-        <!-- Dynamic content will be loaded here using JavaScript -->
-    <!-- </div>
-    <button id="logoutButton">Logout</button>
-    <script src="scripts.js"></script>
-</body>
-</html> -->
