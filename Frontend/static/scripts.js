@@ -732,3 +732,94 @@ function showMessage(message, isSuccess = true) {
         alert(message); // Fallback to alert if message div is not found
     }
 }
+// scripts.js
+
+// Add all the existing functions here (handleLogin, showMessage, etc.)
+
+// Get the modal
+var modal = document.getElementById("accountModal");
+
+// Get the button that opens the modal
+var accountButton = document.getElementById("accountButton");
+
+// Get the <span> element that closes the modal
+var closeSpan = document.getElementsByClassName("close")[0];
+
+// Function to open the modal and display user details
+
+if (accountButton && modal && closeSpan) {
+    // When the user clicks the button, open the modal and display user details
+    accountButton.onclick = function() {
+        openAccountModal();
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    closeSpan.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
+// Event listener for the change username form
+var changeUsernameForm = document.getElementById("changeUsernameForm");
+if (changeUsernameForm) {
+    changeUsernameForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        handleChangeUsername();
+    });
+}
+// Function to open the modal and display user details
+function openAccountModal() {
+const userId = sessionStorage.getItem('userId');
+if (userId) {
+    fetch(`/user_details/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("usernameValue").textContent = data.username;
+            document.getElementById("emailValue").textContent = data.email;
+            modal.style.display = "block";
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+            showMessage('Error fetching user details.', false);
+        });
+} else {
+    showMessage('You must be logged in to view account details.', false);
+}
+}
+
+// Function to handle username change
+function handleChangeUsername() {
+const userId = sessionStorage.getItem('userId');
+const newUsername = document.getElementById("newUsername").value;
+
+fetch(`/update_username/${userId}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ newUsername: newUsername }),
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+})
+.then(data => {
+    showMessage('Username updated successfully.');
+    document.getElementById("usernameValue").textContent = newUsername;
+    modal.style.display = "none";
+    document.getElementById("changeUsernameForm").style.display = "none";
+})
+.catch(error => {
+    console.error('Error updating username:', error);
+    showMessage('Error updating username.', false);
+});
+}

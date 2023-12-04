@@ -56,6 +56,9 @@ def splitting():
     # Add your logic here for what should happen when this page is accessed.
     return render_template('splitting.html')
 
+@app.route('/account')
+def account_page():
+    return render_template('account.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -581,6 +584,7 @@ def generate_user_report(user_id):
     }
 
     return render_template('report.html', report=report)
+
 @app.route('/split_expenses', methods=['POST'])
 def split_expenses():
     data = request.json
@@ -607,9 +611,35 @@ def split_expenses():
             "description": description,
             "number_of_people": number_of_people
         }), 200
-        
     except (ValueError, TypeError) as e:
         return jsonify({"error": str(e)}), 400
+
+@app.route('/user_details/<int:user_id>', methods=['GET'])
+def get_user_details(user_id):
+    if 'user_id' not in session or session['user_id'] != user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    data = read_data()
+    user = next((item for item in data['users'] if item['user_id'] == user_id), None)
+    if user:
+        user_info = {k: v for k, v in user.items() if k != 'password_hash'}
+        return jsonify(user_info)
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+@app.route('/update_username/<int:user_id>', methods=['POST'])
+def update_username(user_id):
+    if 'user_id' not in session or session['user_id'] != user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    new_username = request.json.get('newUsername')
+    data = read_data()
+    user_index = next((index for index, user in enumerate(data['users']) if user['user_id'] == user_id), None)
+    if user_index is not None:
+        data['users'][user_index]['username'] = new_username
+        write_data(data)
+        return jsonify({"message": "Username updated successfully"})
+    else:
+        return jsonify({"error": "User not found"}), 404
+
 # Starting the Flask app
 if __name__ == '__main__':
     app.run(debug=True)

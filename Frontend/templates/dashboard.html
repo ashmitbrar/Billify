@@ -16,7 +16,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="/user_settings">User Settings</a></li>
+               
                 <li><a href="#" id="accountButton">Account</a></li>
                 <li><a href="/login" id="logoutButton" class="button-like-link">Logout</a></li>
             </ul>
@@ -97,6 +97,25 @@
     </footer>
 
 
+    <script>
+        // JavaScript for handling the account modal
+        var modal = document.getElementById("accountModal");
+        var accountButton = document.getElementById("accountButton");
+        accountButton.onclick = function() {
+            fetch('/account')
+                .then(function (response) { return response.text(); })
+                .then(function (html) {
+                    modal.innerHTML = html;
+                    modal.style.display = "block";
+                })
+                .catch(function (error) { console.warn('Something went wrong.', error); });
+        };
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
 </body>
 </html>
 
