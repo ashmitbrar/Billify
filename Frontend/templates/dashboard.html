@@ -23,6 +23,28 @@
         </nav>
     </header>
     
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  
+
+    <!-- Logic to display split details if they exist -->
+    {% if split_details %}
+        <div>
+            <h3>Split Expense Details:</h3>
+            <p>Category: {{ split_details.category }}</p>
+            <p>Total Amount: {{ split_details.total_amount }}</p>
+            <p>Number of People: {{ split_details.number_of_people }}</p>
+            <p>Amount Per Person: {{ split_details.amount_per_person }}</p>
+            <p>Description: {{ split_details.description }}</p>
+        </div>
+    {% endif %}
     
     <div id="dashboard">
         <section id="userOptions">
@@ -69,7 +91,7 @@
 </a>
       
     </div>
-]
+
     <footer>
         <p>Billify &copy; 2023</p>
     </footer>

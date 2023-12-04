@@ -77,12 +77,14 @@ def dashboard():
     user_transactions = [t for t in data['transactions'] if t['user_id'] == user_id]
     user_recurring_expenses = [re for re in data['recurring_expenses'] if re['user_id'] == user_id]
     # ... continue collecting data as per your existing code ...
-
+# Check if there are any split details in the session
+    split_details = session.pop('split_details', None)
     # Constructing the dashboard data
     dashboard_data = {
         "user_info": user_data,  # assuming user_data contains all necessary user info
         "transactions": user_transactions,
-        # ... include other data modules as necessary ...
+       "recurring_expenses": user_recurring_expenses,
+        "split_details": split_details  # Pass the split details to the template
     }
 
     return render_template('dashboard.html', dashboard_data=dashboard_data)
@@ -280,25 +282,6 @@ def load_user_settings(user_id):
     else:
         return jsonify({"error": "User settings not found"}), 404
 
-#Splitting expense Module
-# Route to split expenses with specified amounts among group members
-# @app.route('/groups/<int:group_id>/split_expenses', methods=['POST'])
-# def split_expenses(group_id):
-#     expense_data = request.json
-#     data = read_data()
-#     group = next((g for g in data['groups'] if g['group_id'] == group_id), None)
-#     if group:
-#         # Check if the specified members exist in the group
-#         specified_members = expense_data.get('members', [])
-#         for member_id in specified_members:
-#             if not any(member['user_id'] == member_id for member in group['members']):
-#                 return jsonify({"error": "Invalid member(s) specified"}), 400
-
-#         # Split expenses among specified members
-#         split_expenses = [{"user_id": member_id, "amount": expense_data['amount_per_member']} for member_id in specified_members]
-#         return jsonify({'split_expenses': split_expenses}), 200
-#     else:
-#         return jsonify({"error": "Group not found"}), 404
 
 # Category module
 # Route to add a new category
@@ -565,6 +548,9 @@ def delete_currency(currency_id):
 #Report Module
 @app.route('/reports/user/<int:user_id>', methods=['GET'])
 def generate_user_report(user_id):
+    if 'user_id' not in session or session['user_id'] != user_id:
+        return redirect(url_for('login_page'))  
+
     data = read_data()
 
     user_data = next((user for user in data['users'] if user['user_id'] == user_id), None)
@@ -595,22 +581,35 @@ def generate_user_report(user_id):
     }
 
     return render_template('report.html', report=report)
-
 @app.route('/split_expenses', methods=['POST'])
 def split_expenses():
     data = request.json
+    category = data.get('category')
     total_amount = data.get('amount')
-    members = data.get('members')
+    number_of_people = data.get('members')
+    description = data.get('description')
 
-    if not members or total_amount is None:
+    if not number_of_people or total_amount is None:
         return jsonify({"error": "Invalid data provided"}), 400
 
-    amount_per_member = total_amount / len(members)
-    split_details = [{"member": member, "amount": amount_per_member} for member in members]
+    try:
+        number_of_people = int(number_of_people)
+        if number_of_people <= 0:
+            raise ValueError("Number of people must be greater than 0")
 
-    return jsonify({"split_expenses": split_details}), 200
+        total_amount = float(total_amount)
+        amount_per_person = total_amount / number_of_people
 
-
+        return jsonify({
+            "category": category,
+            "total_amount": total_amount,
+            "amount_per_person": amount_per_person,
+            "description": description,
+            "number_of_people": number_of_people
+        }), 200
+        
+    except (ValueError, TypeError) as e:
+        return jsonify({"error": str(e)}), 400
 # Starting the Flask app
 if __name__ == '__main__':
     app.run(debug=True)

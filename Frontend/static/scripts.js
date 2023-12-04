@@ -673,53 +673,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 // Function to handle splitting expenses
-function handleSplitExpenses(category, amount, members) {
-    // Convert the members string into an array
-    const memberList = members.split(',').map(member => member.trim());
-
-    const data = {
-        category: category,
-        amount: amount,
-        members: memberList
-    };
-
-    fetch('/split_expenses', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Success:', data);
-        showMessage('Expenses split successfully!');
-        // Optionally redirect to dashboard or update the page to show the split results
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        showMessage('Failed to split expenses.', false);
-    });
-}
-
-// Event listener for the splitting form
 document.addEventListener('DOMContentLoaded', function() {
-    var splitForm = document.getElementById('splitForm');
-    if (splitForm) {
-        splitForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const category = document.getElementById('category').value;
-            const amount = document.getElementById('amount').value;
-            const members = document.getElementById('members').value;
-            handleSplitExpenses(category, amount, members);
+    var splitExpenseForm = document.getElementById('splitExpenseForm');
+    splitExpenseForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+        const numberOfPeople = parseInt(document.getElementById('groupMembers').value);
+        const description = document.getElementById('description').value;
+        
+        const data = {
+            category: document.getElementById('category').value,
+            amount: totalAmount,
+            members: numberOfPeople,
+            description: description
+        };
+
+        fetch('/split_expenses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                // Handle non-OK responses here
+                throw new Error(`Server responded with status: ${response.status}`);
+            }
+        })
+        .then(data => {
+            console.log('Success:', data);
+            alert('Expenses split successfully!');
+            // ... [rest of your success handling code] ...
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Failed to split expenses. ' + error.message);
         });
-    }
+    });
 });
 
 // Ensure the showMessage function is defined to handle displaying messages to the user
