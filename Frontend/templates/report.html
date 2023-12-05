@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>User Report - Billify</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script> <!-- Make sure this is included -->
 </head>
 <body>
     <header>
@@ -26,51 +27,78 @@
             <h3>Investments</h3>
             <div id="userInvestments">
                 {% for investment in report.investments %}
-                    <p>Investment: {{ investment.description }}, Amount: {{ investment.amount }}</p>
+                <p>
+                    Investment: {{ investment.description }}, Amount: {{ investment.amount }}
+                    <button class="delete-investment-button" data-investment-id="{{ investment.investment_id }}">Delete</button>
+                </p>
                 {% endfor %}
             </div>
 
             <h3>Debts</h3>
             <div id="userDebts">
                 {% for debt in report.debts %}
-                    <p>Debt: {{ debt.description }}, Amount: {{ debt.amount }}</p>
+                <p>
+                    Debt: {{ debt.description }}, Amount: {{ debt.amount }}
+                    <button class="delete-debt-button" data-debt-id="{{ debt.debt_id }}">Delete</button>
+                </p>
                 {% endfor %}
             </div>
 
             <h3>Budgets</h3>
             <div id="userBudgets">
                 {% for budget in report.budgets %}
-                    <p>Budget: {{ budget.name }}, Amount: {{ budget.amount }}</p>
+                <p>
+                    Budget: {{ budget.name }}, Amount: {{ budget.amount }}
+                    <button class="delete-budget-button" data-budget-id="{{ budget.budget_id }}">Delete</button>
+                </p>
                 {% endfor %}
             </div>
 
             <h3>Transactions</h3>
             <div id="userTransactions">
                 {% for transaction in report.transactions %}
-                    <p>Transaction: {{ transaction.description }}, Amount: {{ transaction.amount }}</p>
+                <p>
+                    Transaction: {{ transaction.description }}, Amount: {{ transaction.amount }}
+                    <button class="delete-transaction-button" data-transaction-id="{{ transaction.transaction_id }}">Delete</button>
+                </p>
                 {% endfor %}
             </div>
 
             <h3>Expenses</h3>
             <div id="userExpenses">
                 {% for expense in report.expenses %}
-                    <p>Expense: {{ expense.description }}, Amount: {{ expense.amount }}</p>
+                <p>
+                    Expense: {{ expense.description }}, Amount: {{ expense.amount }}
+                    <button class="delete-expense-button" data-expense-id="{{ expense.expense_id }}">Delete</button>
+                </p>
                 {% endfor %}
             </div>
 
             <h3>Savings Goals</h3>
             <div id="userSavingsGoals">
                 {% for goal in report.savings_goals %}
-                    <p>Goal: {{ goal.description }}, Target: {{ goal.target_amount }}</p>
+                <p>
+                    Goal: {{ goal.description }}, Target: {{ goal.target_amount }}
+                    <button class="delete-savings-goal-button" data-goal-id="{{ goal.goal_id }}">Delete</button>
+                </p>
                 {% endfor %}
             </div>
 
             <h3>Split Expenses</h3>
             <div id="userSplitExpenses">
                 {% for split in report.split_expenses %}
+                <div class="split-expense-item">
                     <p>Split: {{ split.description }}, Total Amount: {{ split.total_amount }}</p>
+                    {% for detail in split.split_details %}
+                    {% if detail.user_id == session['user_id'] %}
+                    <p>Amount Per Person: {{ split.total_amount / split.split_details | length }}, Amount Owed: {{ detail.amount_owed }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    <button class="delete-split-expense-button" data-split-id="{{ split.split_id }}">Delete</button>
+                </div>
                 {% endfor %}
             </div>
+            
         </section>
     </main>
 

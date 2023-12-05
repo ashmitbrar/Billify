@@ -823,3 +823,155 @@ fetch(`/update_username/${userId}`, {
     showMessage('Error updating username.', false);
 });
 }
+// Delete Investment
+function deleteInvestment(investmentId) {
+    fetch(`/delete_investment/${investmentId}`, { method: 'POST' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete investment');
+        }
+        return response.json();
+    })
+    .then(() => {
+        showMessage('Investment deleted successfully!');
+        setTimeout(() => {
+            window.location.reload(); // This will reload the page to update the report.
+        }, 1000); // Wait for the message to show before reloading
+    })
+    .catch(error => {
+        showMessage(error, false);
+    });
+}
+
+
+// Delete Debt
+function deleteDebt(debtId) {
+    fetch(`/delete_debt/${debtId}`, { method: 'POST' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete debt');
+        }
+        return response.json();
+    })
+    .then(() => {
+        showMessage('Debt deleted successfully!');
+        setTimeout(() => window.location.reload(), 1000);
+    })
+    .catch(error => showMessage(error, false));
+}
+
+// Delete Transaction
+function deleteTransaction(transactionId) {
+    fetch(`/delete_transaction/${transactionId}`, { method: 'POST' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete transaction');
+        }
+        return response.json();
+    })
+    .then(() => {
+        showMessage('Transaction deleted successfully!');
+        setTimeout(() => window.location.reload(), 1000);
+    })
+    .catch(error => showMessage(error, false));
+}
+
+// Delete Budget
+function deleteBudget(budgetId) {
+    fetch(`/delete_budget/${budgetId}`, { method: 'POST' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete budget');
+        }
+        return response.json();
+    })
+    .then(() => {
+        showMessage('Budget deleted successfully!');
+        setTimeout(() => window.location.reload(), 1000);
+    })
+    .catch(error => showMessage(error, false));
+}
+
+// Delete Expense
+function deleteExpense(expenseId) {
+    fetch(`/delete_expense/${expenseId}`, { method: 'POST' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete expense');
+        }
+        return response.json();
+    })
+    .then(() => {
+        showMessage('Expense deleted successfully!');
+        setTimeout(() => window.location.reload(), 1000);
+    })
+    .catch(error => showMessage(error, false));
+}
+
+
+// Delete Savings Goal
+
+function deleteSavingsGoal(goalId) {
+    fetch(`/delete_savings_goal/${goalId}`, { method: 'POST' })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete savings goal');
+        }
+        return response.json();
+    })
+    .then(() => {
+        showMessage('Savings goal deleted successfully!');
+        setTimeout(() => window.location.reload(), 1000);
+    })
+    .catch(error => showMessage(error, false));
+}
+// Event listeners for delete buttons
+document.addEventListener('DOMContentLoaded', function() {
+    // Delete Investment
+    document.querySelectorAll('.delete-investment-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const investmentId = this.getAttribute('data-investment-id');
+            deleteInvestment(investmentId);
+        });
+    });
+
+    // Delete Debt
+    document.querySelectorAll('.delete-debt-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const debtId = this.getAttribute('data-debt-id');
+            deleteDebt(debtId);
+        });
+    });
+
+    // Delete Transaction
+    document.querySelectorAll('.delete-transaction-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const transactionId = this.getAttribute('data-transaction-id');
+            deleteTransaction(transactionId);
+        });
+    });
+
+    // Delete Budget
+    document.querySelectorAll('.delete-budget-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const budgetId = this.getAttribute('data-budget-id');
+            deleteBudget(budgetId);
+        });
+    });
+
+    // Delete Expense
+    document.querySelectorAll('.delete-expense-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const expenseId = this.getAttribute('data-expense-id');
+            deleteExpense(expenseId);
+        });
+    });
+
+    // Delete Savings Goal
+    document.querySelectorAll('.delete-savings-goal-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const goalId = this.getAttribute('data-goal-id');
+            deleteSavingsGoal(goalId);
+        });
+    });
+});

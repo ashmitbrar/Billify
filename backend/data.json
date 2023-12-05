@@ -37,6 +37,27 @@
             "amount": 50.0,
             "description": "Transaction 2",
             "transaction_date": "2023-01-02T00:00:00Z"
+        },
+        {
+            "name": "Fees",
+            "amount": 1000,
+            "transaction_date": "2023-12-01",
+            "description": "Fees for 2nd sem ",
+            "user_id": 2
+        },
+        {
+            "name": "Christnas lights ",
+            "amount": 200,
+            "transaction_date": "2023-12-21",
+            "description": "bought Christmas lights ",
+            "user_id": 2
+        },
+        {
+            "name": "Friend",
+            "amount": 400,
+            "transaction_date": "2023-12-07",
+            "description": "owed money to friend again",
+            "user_id": 2
         }
     ],
     "recurring_expenses": [
@@ -69,10 +90,26 @@
             "reminder_sent": false
         },
         {
+            "debt_id": 2,
+            "user_id": 1,
             "name": "Dinner",
             "amount": 20,
             "due_date": "2023-12-07",
             "description": "give money to friend"
+        },
+        {
+            "name": "Dine bill",
+            "amount": 20,
+            "due_date": "2023-12-10",
+            "description": "Pay for dining out to friend",
+            "user_id": 2
+        },
+        {
+            "name": "Debt 2",
+            "amount": 400,
+            "due_date": "2023-12-07",
+            "description": "owe money to a friend",
+            "user_id": 2
         }
     ],
     "investments": [
@@ -84,6 +121,8 @@
             "return_rate": 0.05
         },
         {
+            "investment_id": 2,
+            "user_id": 1,
             "name": "stock",
             "amount": 200,
             "return_rate": 5,
@@ -91,69 +130,24 @@
         },
         {
             "name": "stock",
+            "amount": 300,
+            "return_rate": 0.04,
+            "description": "Anything",
+            "user_id": 2
+        },
+        {
+            "name": "crypto",
             "amount": 200,
-            "return_rate": 5,
-            "description": "invested in stock "
-        },
-        {
-            "name": "stock",
-            "amount": 200,
-            "return_rate": 5,
-            "description": "invested in stock "
-        },
-        {
-            "name": "stock",
-            "amount": 200,
-            "return_rate": 5,
-            "description": "invested in stock "
-        },
-        {
-            "name": "stock",
-            "amount": 200,
-            "return_rate": 5,
-            "description": "invested in stock "
-        },
-        {
-            "name": "stock",
-            "amount": 400,
-            "return_rate": 2,
-            "description": "for son"
-        },
-        {
-            "name": "stock",
-            "amount": 400,
-            "return_rate": 2,
-            "description": "for son"
-        },
-        {
-            "name": "stock",
-            "amount": 400,
-            "return_rate": 2,
-            "description": "for son"
-        },
-        {
-            "name": "stock",
-            "amount": 400,
-            "return_rate": 2,
-            "description": "for son"
-        },
-        {
-            "name": "stock",
-            "amount": 599,
             "return_rate": 0.07,
-            "description": "yeah!"
+            "description": "Invested in crypto",
+            "user_id": 2
         },
         {
-            "name": "stock",
-            "amount": 599,
-            "return_rate": 0.07,
-            "description": "yeah!"
-        },
-        {
-            "name": "stock",
-            "amount": 34,
-            "return_rate": 0.02,
-            "description": "yea"
+            "name": "Property",
+            "amount": 40000,
+            "return_rate": 4,
+            "description": "Property in waterloo",
+            "user_id": 2
         }
     ],
     "budgets": [
@@ -164,6 +158,22 @@
             "start_date": "2023-01-01",
             "end_date": "2023-01-31",
             "description": "Monthly Budget 1"
+        },
+        {
+            "name": "festive",
+            "amount": 200,
+            "start_date": "2023-12-01",
+            "end_date": "2023-12-31",
+            "description": "Only spend 200 for Christmas ",
+            "user_id": 2
+        },
+        {
+            "name": "New years",
+            "amount": 5000,
+            "start_date": "2023-12-04",
+            "end_date": "2024-01-01",
+            "description": "To organize new years eve",
+            "user_id": 2
         }
     ],
     "savings_goals": [
@@ -176,25 +186,54 @@
             "target_date": "2023-12-31"
         },
         {
+            "goal_id": 2,
             "user_id": "2",
             "target_amount": 200,
             "current_amount": 150,
             "description": "Saving 50 each ",
             "target_date": "2023-12-31"
-        }
-    ],
-    "currencies": [
-        {
-            "currency_id": 1,
-            "name": "USD"
         },
         {
-            "currency_id": 2,
-            "name": "EUR"
+            "target_amount": 100,
+            "current_amount": 80,
+            "description": "Sace 20 for personal use",
+            "target_date": "2023-12-15",
+            "user_id": 2
         },
         {
-            "currency_id": 3,
-            "name": "CAD"
+            "user_id": 2,
+            "target_amount": 100,
+            "current_amount": 80,
+            "description": "Sace 20 for personal use",
+            "target_date": "2023-12-15"
+        },
+        {
+            "target_amount": 40,
+            "current_amount": 20,
+            "description": "Save 20 till christmas",
+            "target_date": "2023-12-25",
+            "user_id": 2
+        },
+        {
+            "target_amount": 50,
+            "current_amount": 25,
+            "description": "Money for eating",
+            "target_date": "2023-12-07",
+            "user_id": 2
+        },
+        {
+            "user_id": 2,
+            "target_amount": 500,
+            "current_amount": 250,
+            "description": "yeah",
+            "target_date": "2023-12-05"
+        },
+        {
+            "target_amount": 500,
+            "current_amount": 250,
+            "description": "yeah",
+            "target_date": "2023-12-05",
+            "user_id": 2
         }
     ],
     "user_settings": [
@@ -204,74 +243,59 @@
             "settings_data": "User settings data JSON"
         }
     ],
-    "categories": [
-        {
-            "category_id": 1,
-            "name": "Food",
-            "spent_amount": 250.0
-        }
-    ],
-    "groups": [
-        {
-            "group_id": 1,
-            "name": "Group 1"
-        }
-    ],
-    "group_balances": [
-        {
-            "balance_id": 1,
-            "group_id": 1,
-            "user_id": 1,
-            "balance": 100.0
-        }
-    ],
     "expenses": [
         {
             "expense_id": 1,
+            "user_id": 1,
             "category_id": 1,
             "amount": 50.0,
             "description": "Expense 1",
             "expense_date": "2023-01-15"
-        },
-        {
-            "name": "Food",
-            "amount": 20,
-            "expense_date": "2023-12-04",
-            "description": "Went out with friends",
-            "user_id": 2
-        }
-    ],
-    "group_expenses": [
-        {
-            "group_expense_id": 1,
-            "group_id": 1,
-            "amount": 100.0,
-            "description": "Group Expense 1",
-            "expense_date": "2023-01-20"
         }
     ],
     "split_expenses": [
         {
             "split_id": 1,
-            "group_id": 1,
-            "total_amount": 120.0,
+            "user_id": 2,
+            "category": "groceries",
+            "total_amount": 60.0,
+            "description": "grocery is expensive",
             "split_details": [
                 {
-                    "user_id": 1,
-                    "amount_owed": 40.0
-                },
-                {
                     "user_id": 2,
-                    "amount_owed": 40.0
+                    "amount_owed": 30.0,
+                    "amount_paid": 0.0
                 },
                 {
                     "user_id": 3,
-                    "amount_owed": 40.0
+                    "amount_owed": 30.0,
+                    "amount_paid": 0.0
                 }
-            ],
-            "description": "Dinner at restaurant",
-            "category": "Food",
-            "date": "2023-01-20"
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "groceries",
+            "total_amount": 30.0,
+            "amount_per_person": 15.0,
+            "description": "grocery is expensive",
+            "number_of_people": 2
+        },
+        {
+            "user_id": 2,
+            "category": "groceries",
+            "total_amount": 30.0,
+            "amount_per_person": 15.0,
+            "description": "grocery is expensive",
+            "number_of_people": 2
+        },
+        {
+            "user_id": 2,
+            "category": "groceries",
+            "total_amount": 500.0,
+            "amount_per_person": 100.0,
+            "description": "idk",
+            "number_of_people": 5
         }
     ]
 }
