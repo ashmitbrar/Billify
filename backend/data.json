@@ -13,14 +13,32 @@
         {
             "username": "Ashmit",
             "email": "ashmitkbrar@gmail.com",
-            "password_hash": "scrypt:32768:8:1$1pB0s149phMOH7Yq$05f524f678e0f9a0e55c50a56bf6bbd12cb817a3bc7fe9716f967f0c79cd7f9145b92bb567218a0748ae07fe7b1d74fd60b0d8a5772398a2667c977b9cc96b9a",
-            "user_id": 2
-        },
-        {
-            "username": "Ashmit",
-            "email": "ashmitkbrar@gmail.com",
             "password_hash": "scrypt:32768:8:1$VXgoMJM3P4XO8O8y$e9d496bf35a11492584f31cc0252815e87366a5cbc32cfac4334c2abbe640521e432f892b7f2e0a45192ca1bb3bbc75d442a86c288205cf1b2afe1af69974f8d",
             "user_id": 3
+        },
+        {
+            "username": "marya",
+            "email": "marya@gmail.com",
+            "password_hash": "scrypt:32768:8:1$K8ZmnPISe3lwrjqz$8cf7001e519fa43e6dc2579ed7a2e3d3a9bd864f3399dcb16eedca4929893a3f39306f6aab05da570d68ece20afed8b64ff001938e159e8666005139ccc477c3",
+            "user_id": 3
+        },
+        {
+            "username": "yeshoda",
+            "email": "yeshoda@gmail.com",
+            "password_hash": "scrypt:32768:8:1$M8G8Hlr426dffDGr$02f40cf8c82d4a7a616a68fff1ccac5e14ebbbfb5072ceb48bfb041ddf9b64890a479805f1bfd3a22aba1ccfb2d1e46442b942555c0e4ba3c8bd346cb019b246",
+            "user_id": 4
+        },
+        {
+            "username": "person ",
+            "email": "person@gmail.com",
+            "password_hash": "scrypt:32768:8:1$moZtXLidPu9CvkLs$20dad81c51f7840a1ba4f968d5bb8f610e4c3af8179b7ee19ef67138a311ad08fa477c0f0bd635473b6d40fdca955f36ada110487fcff8ff99fae9da5bc93ad7",
+            "user_id": 5
+        },
+        {
+            "username": "example",
+            "email": "example@gmail.com",
+            "password_hash": "scrypt:32768:8:1$GKtS9VRgxou0eq6F$8ec00f04178326caa5322276b4e44f38d1f5241214d890fb3d56b7cb57b72019475429340d2d6322a3fee41ad0642932402c692a0e76e16005af86f45b2dc18d",
+            "user_id": 6
         }
     ],
     "transactions": [
@@ -58,6 +76,13 @@
             "transaction_date": "2023-12-07",
             "description": "owed money to friend again",
             "user_id": 2
+        },
+        {
+            "name": "friend ",
+            "amount": 500,
+            "transaction_date": "2023-12-06",
+            "description": "owe money to friend",
+            "user_id": 3
         }
     ],
     "recurring_expenses": [
@@ -110,6 +135,13 @@
             "due_date": "2023-12-07",
             "description": "owe money to a friend",
             "user_id": 2
+        },
+        {
+            "name": "fees",
+            "amount": 40000,
+            "due_date": "2023-12-01",
+            "description": "college",
+            "user_id": 3
         }
     ],
     "investments": [
@@ -148,6 +180,13 @@
             "return_rate": 4,
             "description": "Property in waterloo",
             "user_id": 2
+        },
+        {
+            "name": "stock",
+            "amount": 100,
+            "return_rate": 0.05,
+            "description": "stock",
+            "user_id": 3
         }
     ],
     "budgets": [
@@ -174,6 +213,14 @@
             "end_date": "2024-01-01",
             "description": "To organize new years eve",
             "user_id": 2
+        },
+        {
+            "name": "festive",
+            "amount": 60,
+            "start_date": "2023-12-17",
+            "end_date": "2023-12-25",
+            "description": "christmas",
+            "user_id": 3
         }
     ],
     "savings_goals": [
@@ -201,13 +248,6 @@
             "user_id": 2
         },
         {
-            "user_id": 2,
-            "target_amount": 100,
-            "current_amount": 80,
-            "description": "Sace 20 for personal use",
-            "target_date": "2023-12-15"
-        },
-        {
             "target_amount": 40,
             "current_amount": 20,
             "description": "Save 20 till christmas",
@@ -229,11 +269,18 @@
             "target_date": "2023-12-05"
         },
         {
-            "target_amount": 500,
-            "current_amount": 250,
-            "description": "yeah",
-            "target_date": "2023-12-05",
-            "user_id": 2
+            "user_id": 3,
+            "target_amount": 300,
+            "current_amount": 290,
+            "description": "save",
+            "target_date": "2023-12-07"
+        },
+        {
+            "target_amount": 300,
+            "current_amount": 290,
+            "description": "save",
+            "target_date": "2023-12-07",
+            "user_id": 3
         }
     ],
     "user_settings": [
@@ -251,6 +298,13 @@
             "amount": 50.0,
             "description": "Expense 1",
             "expense_date": "2023-01-15"
+        },
+        {
+            "name": "bus card",
+            "amount": 90,
+            "expense_date": "2023-12-01",
+            "description": "bus card",
+            "user_id": 3
         }
     ],
     "split_expenses": [
@@ -296,6 +350,280 @@
             "amount_per_person": 100.0,
             "description": "idk",
             "number_of_people": 5
+        },
+        {
+            "user_id": 2,
+            "category": "entertainment",
+            "total_amount": 30.0,
+            "description": "Movie night",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 15.0,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 15.0,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "utilities",
+            "total_amount": 300.0,
+            "amount_per_person": 75.0,
+            "description": "electricity bill",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 75.0,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "dining",
+            "total_amount": 375.0,
+            "amount_per_person": 93.75,
+            "description": "date",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 93.75,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 93.75,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 93.75,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 93.75,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "entertainment",
+            "total_amount": 200.0,
+            "amount_per_person": 66.67,
+            "description": "skating",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 66.67,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "dining",
+            "total_amount": 575.0,
+            "amount_per_person": 143.75,
+            "description": "birthday dinner",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 143.75,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 143.75,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 143.75,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 143.75,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "rent",
+            "total_amount": 34.0,
+            "amount_per_person": 17.0,
+            "description": "idk",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 17.0,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 17.0,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "entertainment",
+            "total_amount": 36.0,
+            "amount_per_person": 7.2,
+            "description": "idk",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 7.2,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 7.2,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 7.2,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 7.2,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 7.2,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "rent",
+            "total_amount": 768.0,
+            "amount_per_person": 256.0,
+            "description": "rent",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 256.0,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 256.0,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 256.0,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 2,
+            "category": "utilities",
+            "total_amount": 45.0,
+            "amount_per_person": 22.5,
+            "description": "hydo",
+            "split_details": [
+                {
+                    "user_id": 2,
+                    "amount_owed": 22.5,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 2,
+                    "amount_owed": 22.5,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 3,
+            "category": "dining",
+            "total_amount": 400.0,
+            "amount_per_person": 30.77,
+            "description": "Thankgiving",
+            "split_details": [
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                }
+            ]
         }
     ]
 }

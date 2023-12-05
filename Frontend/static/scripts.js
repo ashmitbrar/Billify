@@ -1,4 +1,3 @@
-
 // scripts.js
 
 // Remember to define the showMessage function at the top of your scripts.js
@@ -45,26 +44,7 @@ function handleLogin(username, password) {
         showMessage('Login failed.', false);
     });
 }
-// function handleLogout() {
-//     fetch('/logout', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         showMessage(data.message);
-//         // Clear session storage or cookies if used
-//         sessionStorage.removeItem('userId');
-//         // sessionStorage.clear();
-//         window.location.href = '/login.html'; // Redirect to login page
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         showMessage('Logout failed.', false);
-//     });
-// }
+
 // Function to handle logout
 function handleLogout() {
     // Clear session storage or cookies if used
@@ -83,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ... rest of your code ...
+   
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -105,19 +85,19 @@ if (logoutButton) {
     logoutButton.addEventListener('click', handleLogout);
 }
 
-    // Event listener for the registration form
-    document.addEventListener('DOMContentLoaded', function() {
-        var registerForm = document.getElementById('registerForm');
-        if (registerForm) {
-            registerForm.addEventListener('submit', function(e) {
+   
+ // Event listener for the registration form
+var registerForm = document.getElementById('registerForm');
+if (registerForm) {
+    registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const username = document.getElementById('registerUsername').value;
-    const email = document.getElementById('registerEmail').value; // This captures the email from the form
-    const password = document.getElementById('registerPassword').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
         
         const data = { username, email, password }; // Adjust according to your backend expectations
         
-        fetch('/users', { // Ensure this URL matches your Flask route
+        fetch('/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -142,8 +122,8 @@ if (logoutButton) {
             showMessage('Failed to register user.', false);
         });
     });
-        
 }
+
     });
     // Event listener for the transaction form
     var transactionForm = document.getElementById('transactionForm');
@@ -180,8 +160,6 @@ if (logoutButton) {
         });
     });
     }
-});
-
 
 // Event listener for the recurring expense form
 var recurringExpenseForm = document.getElementById('recurringExpenseForm');
@@ -737,34 +715,34 @@ function showMessage(message, isSuccess = true) {
 // Add all the existing functions here (handleLogin, showMessage, etc.)
 
 // Get the modal
-var modal = document.getElementById("accountModal");
+// var modal = document.getElementById("accountModal");
 
-// Get the button that opens the modal
-var accountButton = document.getElementById("accountButton");
+// // Get the button that opens the modal
+// var accountButton = document.getElementById("accountButton");
 
-// Get the <span> element that closes the modal
-var closeSpan = document.getElementsByClassName("close")[0];
+// // Get the <span> element that closes the modal
+// var closeSpan = document.getElementsByClassName("close")[0];
 
-// Function to open the modal and display user details
+// // Function to open the modal and display user details
 
-if (accountButton && modal && closeSpan) {
-    // When the user clicks the button, open the modal and display user details
-    accountButton.onclick = function() {
-        openAccountModal();
-    };
+// if (accountButton && modal && closeSpan) {
+//     // When the user clicks the button, open the modal and display user details
+//     accountButton.onclick = function() {
+//         openAccountModal();
+//     };
 
-    // When the user clicks on <span> (x), close the modal
-    closeSpan.onclick = function() {
-        modal.style.display = "none";
-    };
+//     // When the user clicks on <span> (x), close the modal
+//     closeSpan.onclick = function() {
+//         modal.style.display = "none";
+//     };
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
-}
+//     // When the user clicks anywhere outside of the modal, close it
+//     window.onclick = function(event) {
+//         if (event.target === modal) {
+//             modal.style.display = "none";
+//         }
+//     };
+// }
 
 // Event listener for the change username form
 var changeUsernameForm = document.getElementById("changeUsernameForm");

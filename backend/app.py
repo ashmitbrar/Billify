@@ -127,15 +127,26 @@ def write_data(data):
 @app.route('/users', methods=['POST'])
 def create_user():
     user_data = request.json
+
+    # Check for missing data
+    if not all(key in user_data for key in ['username', 'email', 'password']):
+        return jsonify({"error": "Missing data"}), 400
+
+    data = read_data()
+
+    # Check for existing username or email
+    existing_user = next((u for u in data['users'] if u['username'] == user_data['username'] or u['email'] == user_data['email']), None)
+    if existing_user:
+        return jsonify({"error": "User already exists"}), 409
+
     user_data['password_hash'] = generate_password_hash(user_data['password'])
     del user_data['password']  # Remove the plain password from the data
 
-    data = read_data()
     user_data['user_id'] = len(data['users']) + 1  # Assign a new user ID
+
     data['users'].append(user_data)  # Add the new user to the 'users' list
     write_data(data)  # Write the updated data back to the file
-    return jsonify(user_data), 201
-
+    return jsonify({"message": "User registered successfully", "user_id": user_data['user_id']}), 201
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -471,15 +482,19 @@ def split_expenses():
             raise ValueError("Number of people must be greater than 0")
 
         total_amount = float(total_amount)
-        amount_per_person = total_amount / number_of_people
+        amount_per_person = round(total_amount / number_of_people, 2)
 
+        # Make sure to add 'amount_per_person' in the split_expense_data
         split_expense_data = {
             "user_id": session['user_id'],
             "category": category,
             "total_amount": total_amount,
-            "amount_per_person": amount_per_person,
+            "amount_per_person": amount_per_person,  # Ensure this line is present
             "description": description,
-            "number_of_people": number_of_people
+            "split_details": [
+                {"user_id": session['user_id'], "amount_owed": amount_per_person, "amount_paid": 0.0}
+                for _ in range(number_of_people)
+            ]
         }
 
         data_store = read_data()
@@ -489,6 +504,8 @@ def split_expenses():
         return jsonify(split_expense_data), 201
     except (ValueError, TypeError) as e:
         return jsonify({"error": str(e)}), 400
+
+
 
 @app.route('/user_details/<int:user_id>', methods=['GET'])
 def get_user_details(user_id):

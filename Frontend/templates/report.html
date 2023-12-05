@@ -84,20 +84,26 @@
                 {% endfor %}
             </div>
 
+           
             <h3>Split Expenses</h3>
             <div id="userSplitExpenses">
+                {% set rendered_splits = [] %}
                 {% for split in report.split_expenses %}
-                <div class="split-expense-item">
-                    <p>Split: {{ split.description }}, Total Amount: {{ split.total_amount }}</p>
-                    {% for detail in split.split_details %}
-                    {% if detail.user_id == session['user_id'] %}
-                    <p>Amount Per Person: {{ split.total_amount / split.split_details | length }}, Amount Owed: {{ detail.amount_owed }}</p>
+                    {% if split.split_id not in rendered_splits %}
+                        <div class="split-expense-item">
+                            <p>Split: {{ split.description }}, Total Amount: {{ "%.2f"|format(split.total_amount) }}</p>
+                            {% set details = split.split_details | selectattr("user_id", "equalto", session['user_id']) | list %}
+                            {% if details %}
+                                <p>Amount Per Person: {{ "%.2f"|format(split.total_amount / split.split_details | length) }}, Amount Owed: {{ "%.2f"|format(details[0].amount_owed) }}</p>
+                            {% endif %}
+                            <button class="delete-split-expense-button" data-split-id="{{ split.split_id }}">Delete</button>
+                        </div>
+                        {% set rendered_splits = rendered_splits + [split.split_id] %}
                     {% endif %}
-                    {% endfor %}
-                    <button class="delete-split-expense-button" data-split-id="{{ split.split_id }}">Delete</button>
-                </div>
                 {% endfor %}
             </div>
+            
+            
             
         </section>
     </main>
