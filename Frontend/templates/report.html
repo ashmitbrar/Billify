@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Report - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script> <!-- Make sure this is included -->
+</head>
+<body>
+    <header>
+        <h1>Billify - Your Personal Finance Tracker</h1>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>User Report</h2>
+        <section id="userReport">
+            <h3>User Information</h3>
+            <div id="userInfo">
+                <p>Username: {{ report.user_info.username }}</p>
+                <p>Email: {{ report.user_info.email }}</p>
+                <!-- Add other non-sensitive user info fields here -->
+            </div>
+
+            <h3>Investments</h3>
+            <div id="userInvestments">
+                {% for investment in report.investments %}
+                <p>
+                    Investment: {{ investment.description }}, Amount: {{ investment.amount }}
+                   
+                </p>
+                {% endfor %}
+            </div>
+
+            <h3>Debts</h3>
+            <div id="userDebts">
+                {% for debt in report.debts %}
+                <p>
+                    Debt: {{ debt.description }}, Amount: {{ debt.amount }}
+                    
+                </p>
+                {% endfor %}
+            </div>
+
+            <h3>Budgets</h3>
+            <div id="userBudgets">
+                {% for budget in report.budgets %}
+                <p>
+                    Budget: {{ budget.name }}, Amount: {{ budget.amount }}
+                    
+                </p>
+                {% endfor %}
+            </div>
+
+            <h3>Transactions</h3>
+            <div id="userTransactions">
+                {% for transaction in report.transactions %}
+                <p>
+                    Transaction: {{ transaction.description }}, Amount: {{ transaction.amount }}
+                    
+                </p>
+                {% endfor %}
+            </div>
+
+            <h3>Expenses</h3>
+            <div id="userExpenses">
+                {% for expense in report.expenses %}
+                <p>
+                    Expense: {{ expense.description }}, Amount: {{ expense.amount }}
+                    
+                </p>
+                {% endfor %}
+            </div>
+
+            <h3>Savings Goals</h3>
+            <div id="userSavingsGoals">
+                {% for goal in report.savings_goals %}
+                <p>
+                    Goal: {{ goal.description }}, Target: {{ goal.target_amount }}
+                   
+                </p>
+                {% endfor %}
+            </div>
+
+           
+            <h3>Split Expenses</h3>
+            <div id="userSplitExpenses">
+                {% set rendered_splits = [] %}
+                {% for split in report.split_expenses %}
+                    {% if split.split_id not in rendered_splits %}
+                        <div class="split-expense-item">
+                            <p>Split: {{ split.description }}, Total Amount: {{ "%.2f"|format(split.total_amount) }}</p>
+                            {% set details = split.split_details | selectattr("user_id", "equalto", session['user_id']) | list %}
+                            {% if details %}
+                                <p>Amount Per Person: {{ "%.2f"|format(split.total_amount / split.split_details | length) }}, Amount Owed: {{ "%.2f"|format(details[0].amount_owed) }}</p>
+                            {% endif %}
+                           
+                        </div>
+                        {% set rendered_splits = rendered_splits + [split.split_id] %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            
+            
+        </section>
+    </main>
+
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+</body>
+</html>

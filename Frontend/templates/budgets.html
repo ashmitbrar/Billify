@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Budget - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Billify - Your Personal Finance Tracker</h1>
+    </header>
+    
+    <div class="container">
+        <section id="budgetSection">
+            <h2>Add Budget</h2>
+            <form id="addBudgetForm">
+                <input type="text" id="budgetName" name="name" placeholder="Budget Name" required>
+                <input type="number" id="budgetAmount" name="amount" placeholder="Amount" required>
+                <input type="date" id="startDate" name="start_date" placeholder="Start Date" required>
+                <input type="date" id="endDate" name="end_date" placeholder="End Date" required>
+                <textarea id="budgetDescription" name="description" placeholder="Description" required></textarea>
+                <button type="submit">Add Budget</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var addBudgetForm = document.getElementById('addBudgetForm');
+            addBudgetForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = {
+                    name: document.getElementById('budgetName').value,
+                    amount: parseFloat(document.getElementById('budgetAmount').value),
+                    start_date: document.getElementById('startDate').value,
+                    end_date: document.getElementById('endDate').value,
+                    description: document.getElementById('budgetDescription').value
+                };
+                fetch('/budgets', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Budget added successfully!');
+                    window.location.href = '/dashboard';
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Failed to add budget.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

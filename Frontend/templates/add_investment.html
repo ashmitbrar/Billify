@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Billify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+
+</head>
+<body> 
+    <header>
+        <div id="branding">
+            <h1><a href="/dashboard">Billify - Your Personal Finance Tracker</a></h1>
+        </div>
+        <nav>
+            <ul>
+                
+                <li><button id="logoutButton">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <section id="investmentSection">
+            <h2>Add Investment</h2>
+            <form id="addInvestmentForm" action="/investments" method="post">
+                <input type="text" id="investmentName" name="name" placeholder="Investment Name" required>
+                <input type="number" id="investmentAmount" name="amount" placeholder="Amount" required>
+                <input type="number" id="returnRate" name="return_rate" placeholder="Expected Return Rate (e.g., 0.05 for 5%)" step="0.01" required>
+                <textarea id="investmentDescription" name="description" placeholder="Description" required></textarea>
+                <button type="submit">Add Investment</button>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Billify &copy; 2023</p>
+    </footer>
+    
+        
+    
+    <script>
+        // Assuming showMessage function is like this:
+function showMessage(message, isSuccess = true) {
+    const messageDiv = document.getElementById('message');
+    if (messageDiv) { // Ensure the messageDiv exists
+        messageDiv.textContent = message;
+        messageDiv.style.color = isSuccess ? 'green' : 'red';
+        messageDiv.style.display = 'block';
+
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+            // If you want to refresh the page after showing the message:
+            window.location.reload();
+        }, 5000); // Adjust time as needed
+    } else {
+        console.error('The message element does not exist on this page.');
+    }
+}
+        document.getElementById('addInvestmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect data from the form
+            const formData = {
+                name: document.getElementById('investmentName').value,
+                amount: parseFloat(document.getElementById('investmentAmount').value),
+                return_rate: parseFloat(document.getElementById('returnRate').value),
+                description: document.getElementById('investmentDescription').value
+            };
+            
+            // Here you should include user_id in the formData if it's required by the backend
+            
+            // Send the data to the server
+            fetch('/investments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        // Display success message
+        alert('Successfully added the investment.');
+        // Refresh the page after a short delay
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        // Display error message
+        alert('Failed to add investment.');
+    });
+});
+    </script>
+
+</body>
+</html>
