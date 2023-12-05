@@ -534,128 +534,129 @@ def update_username(user_id):
         return jsonify({"error": "User not found"}), 404
 
 
-# Helper function to find an item's index in a list by ID
-def find_index_by_id(items, item_id, id_field):
-    for index, item in enumerate(items):
-        if item[id_field] == item_id:
-            return index
-    return -1
-
-# Helper function to delete an item by ID
-def delete_item(data, item_id, id_field, data_key, user_id):
-    item_index = find_index_by_id(data[data_key], item_id, id_field)
-    if item_index != -1 and data[data_key][item_index]['user_id'] == user_id:
-        return data[data_key].pop(item_index), True
-    return None, False
-
-# Route to delete an investment
-@app.route('/delete_investment/<int:investment_id>', methods=['POST'])
-def delete_investment_route(investment_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    data = read_data()
-    user_id = session['user_id']
-    deleted_investment, success = delete_item(data, investment_id, 'investment_id', 'investments', user_id)
-    if success:
-        write_data(data)
-        return jsonify({"message": "Investment deleted successfully"}), 200
-    else:
-        return jsonify({"error": "Investment not found or unauthorized"}), 404
-
-# Route to delete a debt
-@app.route('/delete_debt/<int:debt_id>', methods=['POST'])
-def delete_debt_route(debt_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    data = read_data()
-    user_id = session['user_id']
-    deleted_debt, success = delete_item(data, debt_id, 'debt_id', 'debts', user_id)
-    if success:
-        write_data(data)
-        return jsonify({"message": "Debt deleted successfully"}), 200
-    else:
-        return jsonify({"error": "Debt not found or unauthorized"}), 404
+# # Helper function to find an item's index in a list by ID
+# def find_index_by_id(items, item_id, id_field):
+#     for index, item in enumerate(items):
+#         if str(item[id_field]) == str(item_id):
+#             return index
+#     return -1
 
 
-# Route to delete a budget
-@app.route('/delete_budget/<int:budget_id>', methods=['POST'])
-def delete_budget_route(budget_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+# # Helper function to delete an item by ID
+# def delete_item(data, item_id, id_field, data_key, user_id):
+#     item_index = find_index_by_id(data[data_key], item_id, id_field)
+#     if item_index != -1 and data[data_key][item_index]['user_id'] == user_id:
+#         return data[data_key].pop(item_index), True
+#     return None, False
 
-    data = read_data()
-    user_id = session['user_id']
-    deleted_budget, success = delete_item(data, budget_id, 'budget_id', 'budgets', user_id)
-    if success:
-        write_data(data)
-        return jsonify({"message": "Budget deleted successfully"}), 200
-    else:
-        return jsonify({"error": "Budget not found or unauthorized"}), 404
+# # Route to delete an investment
+# @app.route('/delete_investment/<int:investment_id>', methods=['POST'])
+# def delete_investment_route(investment_id):
+#     if 'user_id' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
 
-# Route to delete an expense
-@app.route('/delete_expense/<int:expense_id>', methods=['POST'])
-def delete_expense_route(expense_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+#     data = read_data()
+#     user_id = session['user_id']
+#     deleted_investment, success = delete_item(data, investment_id, 'investment_id', 'investments', user_id)
+#     if success:
+#         write_data(data)
+#         return jsonify({"message": "Investment deleted successfully"}), 200
+#     else:
+#         return jsonify({"error": "Investment not found or unauthorized"}), 404
 
-    data = read_data()
-    user_id = session['user_id']
-    deleted_expense, success = delete_item(data, expense_id, 'expense_id', 'expenses', user_id)
-    if success:
-        write_data(data)
-        return jsonify({"message": "Expense deleted successfully"}), 200
-    else:
-        return jsonify({"error": "Expense not found or unauthorized"}), 404
+# # Route to delete a debt
+# @app.route('/delete_debt/<int:debt_id>', methods=['POST'])
+# def delete_debt_route(debt_id):
+#     if 'user_id' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
 
-# Route to delete a savings goal
-@app.route('/delete_savings_goal/<int:goal_id>', methods=['POST'])
-def delete_savings_goal_route(goal_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+#     data = read_data()
+#     user_id = session['user_id']
+#     deleted_debt, success = delete_item(data, debt_id, 'debt_id', 'debts', user_id)
+#     if success:
+#         write_data(data)
+#         return jsonify({"message": "Debt deleted successfully"}), 200
+#     else:
+#         return jsonify({"error": "Debt not found or unauthorized"}), 404
 
-    data = read_data()
-    user_id = session['user_id']
-    deleted_goal, success = delete_item(data, goal_id, 'goal_id', 'savings_goals', user_id)
-    if success:
-        write_data(data)
-        return jsonify({"message": "Savings goal deleted successfully"}), 200
-    else:
-        return jsonify({"error": "Savings goal not found or unauthorized"}), 404
+
+# # Route to delete a budget
+# @app.route('/delete_budget/<int:budget_id>', methods=['POST'])
+# def delete_budget_route(budget_id):
+#     if 'user_id' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
+
+#     data = read_data()
+#     user_id = session['user_id']
+#     deleted_budget, success = delete_item(data, budget_id, 'budget_id', 'budgets', user_id)
+#     if success:
+#         write_data(data)
+#         return jsonify({"message": "Budget deleted successfully"}), 200
+#     else:
+#         return jsonify({"error": "Budget not found or unauthorized"}), 404
+
+# # Route to delete an expense
+# @app.route('/delete_expense/<int:expense_id>', methods=['POST'])
+# def delete_expense_route(expense_id):
+#     if 'user_id' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
+
+#     data = read_data()
+#     user_id = session['user_id']
+#     deleted_expense, success = delete_item(data, expense_id, 'expense_id', 'expenses', user_id)
+#     if success:
+#         write_data(data)
+#         return jsonify({"message": "Expense deleted successfully"}), 200
+#     else:
+#         return jsonify({"error": "Expense not found or unauthorized"}), 404
+
+# # Route to delete a savings goal
+# @app.route('/delete_savings_goal/<int:goal_id>', methods=['POST'])
+# def delete_savings_goal_route(goal_id):
+#     if 'user_id' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
+
+#     data = read_data()
+#     user_id = session['user_id']
+#     deleted_goal, success = delete_item(data, goal_id, 'goal_id', 'savings_goals', user_id)
+#     if success:
+#         write_data(data)
+#         return jsonify({"message": "Savings goal deleted successfully"}), 200
+#     else:
+#         return jsonify({"error": "Savings goal not found or unauthorized"}), 404
     
-# Route to delete a split expense
-@app.route('/delete_split_expense/<int:split_id>', methods=['POST'])
-def delete_split_expense(split_id):
-    data = read_data()
-    # Find the split expense to delete
-    split_index = find_index_by_id(data['split_expenses'], split_id, 'split_id')
-    if split_index != -1:
-        # Check if user has the right to delete the split expense
-        split_expense = data['split_expenses'][split_index]
-        if session['user_id'] in [detail['user_id'] for detail in split_expense['split_details']]:
-            data['split_expenses'].pop(split_index)
-            write_data(data)
-            return jsonify({"message": "Split expense deleted successfully"}), 200
-        else:
-            return jsonify({"error": "Unauthorized deletion attempt"}), 403
-    return jsonify({"error": "Split expense not found"}), 404
+# # Route to delete a split expense
+# @app.route('/delete_split_expense/<int:split_id>', methods=['POST'])
+# def delete_split_expense(split_id):
+#     data = read_data()
+#     # Find the split expense to delete
+#     split_index = find_index_by_id(data['split_expenses'], split_id, 'split_id')
+#     if split_index != -1:
+#         # Check if user has the right to delete the split expense
+#         split_expense = data['split_expenses'][split_index]
+#         if session['user_id'] in [detail['user_id'] for detail in split_expense['split_details']]:
+#             data['split_expenses'].pop(split_index)
+#             write_data(data)
+#             return jsonify({"message": "Split expense deleted successfully"}), 200
+#         else:
+#             return jsonify({"error": "Unauthorized deletion attempt"}), 403
+#     return jsonify({"error": "Split expense not found"}), 404
 
 
-# Route to delete a transaction
-@app.route('/delete_transaction/<int:transaction_id>', methods=['POST'])
-def delete_transaction_route(transaction_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+# # Route to delete a transaction
+# @app.route('/delete_transaction/<int:transaction_id>', methods=['POST'])
+# def delete_transaction_route(transaction_id):
+#     if 'user_id' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
 
-    data = read_data()
-    user_id = session['user_id']
-    deleted_transaction, success = delete_item(data, transaction_id, 'transaction_id', 'transactions', user_id)
-    if success:
-        write_data(data)
-        return jsonify({"message": "Transaction deleted successfully"}), 200
-    else:
-        return jsonify({"error": "Transaction not found or unauthorized"}), 404
+    # data = read_data()
+    # user_id = session['user_id']
+    # deleted_transaction, success = delete_item(data, transaction_id, 'transaction_id', 'transactions', user_id)
+    # if success:
+    #     write_data(data)
+    #     return jsonify({"message": "Transaction deleted successfully"}), 200
+    # else:
+    #     return jsonify({"error": "Transaction not found or unauthorized"}), 404
     
 # Read and write data functions
 def read_data():

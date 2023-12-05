@@ -39,6 +39,12 @@
             "email": "example@gmail.com",
             "password_hash": "scrypt:32768:8:1$GKtS9VRgxou0eq6F$8ec00f04178326caa5322276b4e44f38d1f5241214d890fb3d56b7cb57b72019475429340d2d6322a3fee41ad0642932402c692a0e76e16005af86f45b2dc18d",
             "user_id": 6
+        },
+        {
+            "username": "test1",
+            "email": "test1@gmail.com",
+            "password_hash": "scrypt:32768:8:1$5idDQqhlUUiN4tBR$dbddf41f014485bb6c2af9db8c7e2de79258e3e71c51b3b3b8e72c1e5df57a1cfefcaed7f8df55dda10f7cdb604b44bab17d5256be3c1c6202fc8ddafcbb3795",
+            "user_id": 7
         }
     ],
     "transactions": [
@@ -82,6 +88,13 @@
             "amount": 500,
             "transaction_date": "2023-12-06",
             "description": "owe money to friend",
+            "user_id": 3
+        },
+        {
+            "name": "transaction 3",
+            "amount": 44,
+            "transaction_date": "2023-12-05",
+            "description": "test",
             "user_id": 3
         }
     ],
@@ -142,6 +155,13 @@
             "due_date": "2023-12-01",
             "description": "college",
             "user_id": 3
+        },
+        {
+            "name": "debt2",
+            "amount": 56,
+            "due_date": "2023-12-05",
+            "description": "test",
+            "user_id": 3
         }
     ],
     "investments": [
@@ -187,6 +207,13 @@
             "return_rate": 0.05,
             "description": "stock",
             "user_id": 3
+        },
+        {
+            "name": "investment2",
+            "amount": 345,
+            "return_rate": 4,
+            "description": "test",
+            "user_id": 3
         }
     ],
     "budgets": [
@@ -220,6 +247,14 @@
             "start_date": "2023-12-17",
             "end_date": "2023-12-25",
             "description": "christmas",
+            "user_id": 3
+        },
+        {
+            "name": "budget 3",
+            "amount": 44,
+            "start_date": "2023-12-07",
+            "end_date": "2023-12-07",
+            "description": "test",
             "user_id": 3
         }
     ],
@@ -304,6 +339,13 @@
             "amount": 90,
             "expense_date": "2023-12-01",
             "description": "bus card",
+            "user_id": 3
+        },
+        {
+            "name": "expense2",
+            "amount": 344,
+            "expense_date": "2023-12-05",
+            "description": "test",
             "user_id": 3
         }
     ],
@@ -621,6 +663,50 @@
                 {
                     "user_id": 3,
                     "amount_owed": 30.77,
+                    "amount_paid": 0.0
+                }
+            ]
+        },
+        {
+            "user_id": 3,
+            "category": "dining",
+            "total_amount": 566.0,
+            "amount_per_person": 80.86,
+            "description": "test",
+            "split_details": [
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
+                    "amount_paid": 0.0
+                },
+                {
+                    "user_id": 3,
+                    "amount_owed": 80.86,
                     "amount_paid": 0.0
                 }
             ]

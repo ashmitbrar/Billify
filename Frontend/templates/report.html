@@ -29,7 +29,7 @@
                 {% for investment in report.investments %}
                 <p>
                     Investment: {{ investment.description }}, Amount: {{ investment.amount }}
-                    <button class="delete-investment-button" data-investment-id="{{ investment.investment_id }}">Delete</button>
+                   
                 </p>
                 {% endfor %}
             </div>
@@ -39,7 +39,7 @@
                 {% for debt in report.debts %}
                 <p>
                     Debt: {{ debt.description }}, Amount: {{ debt.amount }}
-                    <button class="delete-debt-button" data-debt-id="{{ debt.debt_id }}">Delete</button>
+                    
                 </p>
                 {% endfor %}
             </div>
@@ -49,7 +49,7 @@
                 {% for budget in report.budgets %}
                 <p>
                     Budget: {{ budget.name }}, Amount: {{ budget.amount }}
-                    <button class="delete-budget-button" data-budget-id="{{ budget.budget_id }}">Delete</button>
+                    
                 </p>
                 {% endfor %}
             </div>
@@ -59,7 +59,7 @@
                 {% for transaction in report.transactions %}
                 <p>
                     Transaction: {{ transaction.description }}, Amount: {{ transaction.amount }}
-                    <button class="delete-transaction-button" data-transaction-id="{{ transaction.transaction_id }}">Delete</button>
+                    
                 </p>
                 {% endfor %}
             </div>
@@ -69,7 +69,7 @@
                 {% for expense in report.expenses %}
                 <p>
                     Expense: {{ expense.description }}, Amount: {{ expense.amount }}
-                    <button class="delete-expense-button" data-expense-id="{{ expense.expense_id }}">Delete</button>
+                    
                 </p>
                 {% endfor %}
             </div>
@@ -79,7 +79,7 @@
                 {% for goal in report.savings_goals %}
                 <p>
                     Goal: {{ goal.description }}, Target: {{ goal.target_amount }}
-                    <button class="delete-savings-goal-button" data-goal-id="{{ goal.goal_id }}">Delete</button>
+                   
                 </p>
                 {% endfor %}
             </div>
@@ -96,7 +96,7 @@
                             {% if details %}
                                 <p>Amount Per Person: {{ "%.2f"|format(split.total_amount / split.split_details | length) }}, Amount Owed: {{ "%.2f"|format(details[0].amount_owed) }}</p>
                             {% endif %}
-                            <button class="delete-split-expense-button" data-split-id="{{ split.split_id }}">Delete</button>
+                           
                         </div>
                         {% set rendered_splits = rendered_splits + [split.split_id] %}
                     {% endif %}
